@@ -5,10 +5,12 @@ class CalculatorButton extends StatelessWidget {
     super.key,
     required this.child,
     required this.onPressed,
+    this.style,
   });
 
   final Widget child;
   final VoidCallback onPressed;
+  final ButtonStyle? style;
 
   @override
   Widget build(BuildContext context) =>
@@ -19,7 +21,7 @@ class CalculatorButton extends StatelessWidget {
         child: OutlinedButton(
           child: child,
           onPressed: onPressed,
-          style: ButtonStyle(
+          style: style ?? ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.tertiary),
           ),
         ),

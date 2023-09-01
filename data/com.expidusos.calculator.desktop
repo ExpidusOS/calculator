@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Calculator
+Comment=ExpidusOS Calculator
+Categories=Utility;Calculator;
+Icon=com.expidusos.calculator
+Terminal=false
+Exec=calculator

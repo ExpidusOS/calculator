@@ -1,0 +1,50 @@
+name: calculator
+description: A simple calculator application for ExpidusOS
+publish_to: 'none'
+version: 0.1.0+1
+homepage: https://expidusos.com
+funding:
+  - https://opencollective.com/expidusos
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+
+dependencies:
+  bitsdojo_window: ^0.1.5
+  flutter:
+    sdk: flutter
+  flutter_adaptive_scaffold: ^0.1.7+1
+  flutter_localizations:
+    sdk: flutter
+  libtokyo:
+    git:
+      url: https://github.com/ExpidusOS/libtokyo.git
+      ref: eb140908dd2435afdf6208cb84bd37db840b46df
+      path: packages/libtokyo
+  libtokyo_flutter:
+    git:
+      url: https://github.com/ExpidusOS/libtokyo.git
+      ref: eb140908dd2435afdf6208cb84bd37db840b46df
+      path: packages/libtokyo_flutter
+  provider: ^6.0.5
+  shared_preferences: ^2.2.1
+
+dependency_overrides:
+  libtokyo:
+    git:
+      url: https://github.com/ExpidusOS/libtokyo.git
+      ref: eb140908dd2435afdf6208cb84bd37db840b46df
+      path: packages/libtokyo
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/imgs/
+    - pubspec.yaml
+    - .dart_tool/package_config.json

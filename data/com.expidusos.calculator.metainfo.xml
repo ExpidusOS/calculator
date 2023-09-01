@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.expidusos.calculator</id>
+  
+  <name>Calculator</name>
+  <summary>ExpidusOS Calculator</summary>
+  <developer_name>Midstall Software</developer_name>
+
+  <url type="homepage">https://expidusos.com</url>
+  <url type="bugtracker">https://github.com/ExpidusOS/calculator/issues</url>
+  <url type="contribute">https://github.com/ExpidusOS/calculator</url>
+  <url type="donation">https://opencollective.com/expidusos</url>
+  <url type="translate">https://crowdin.com/project/expidusos-calculator</url>
+  
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+
+  <keywords>
+    <keyword>ExpidusOS</keyword>
+    <keyword>Arithmetic</keyword>
+    <keyword>Calculation</keyword>
+    <keyword>Financial</keyword>
+    <keyword>Scientific</keyword>
+  </keywords>
+
+  <categories>
+    <category>System</category>
+    <category>Utilities</category>
+  </categories>
+  
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+
+  <requires>
+    <display_length>600</display_length>
+  </requires>
+  
+  <description>
+    <p>
+      A simple calculator application for ExpidusOS.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">com.expidusos.calculator.desktop</launchable>
+  <provides>
+    <id>com.expidusos.calculator</id>
+  </provides>
+</component>

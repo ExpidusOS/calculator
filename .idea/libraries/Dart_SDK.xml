@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="Dart SDK">
+    <CLASSES>
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/async" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/collection" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/convert" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/core" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/developer" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/html" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/io" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/isolate" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/math" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/mirrors" />
+      <root url="file:///nix/store/8gcy7hn3f8qi01zaiaf2q2a5md9k47h8-flutter-3.10.5-unwrapped/bin/cache/dart-sdk/lib/typed_data" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

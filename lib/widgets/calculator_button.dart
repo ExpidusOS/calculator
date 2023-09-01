@@ -16,9 +16,12 @@ class CalculatorButton extends StatelessWidget {
       child: Container(
         width: 80,
         height: 80,
-        child: FloatingActionButton(
+        child: OutlinedButton(
           child: child,
           onPressed: onPressed,
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.tertiary),
+          ),
         ),
       ),
     );

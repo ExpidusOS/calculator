@@ -28,255 +28,265 @@ class _BasicCalculator extends State<BasicCalculator> {
             showCursor: true,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                child: Text(
-                  '√',
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-                onPressed: () {},
-              ),
-              TextButton(
-                child: Text(
-                  '𐍀',
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-                onPressed: () {},
-              ),
-              TextButton(
-                child: Text(
-                  '^',
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-                onPressed: () {},
-              ),
-              TextButton(
-                child: Text(
-                  '!',
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-                onPressed: () {},
-              ),
-            ],
+        GridView(
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisExtent: 95
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CalculatorButton(
-                child: Text(
-                  'AC',
-                  style: Theme.of(context).textTheme.displayMedium,
+          children: [
+            CalculatorButton(
+              child: Text(
+                '√',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-              CalculatorButton(
-                child: Text(
-                  '( )',
-                  style: Theme.of(context).textTheme.displayMedium,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '𐍀',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-              CalculatorButton(
-                child: Text(
-                  '%',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '^',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-              TextButton(
-                child: Text(
-                  '÷',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '!',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CalculatorButton(
-                child: Text(
-                  '7',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                'AC',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '7';
-                  }),
               ),
-              CalculatorButton(
-                child: Text(
-                  '8',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value = '';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '( )',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '8';
-                  }),
               ),
-              CalculatorButton(
-                child: Text(
-                  '9',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '%',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '9';
-                  }),
               ),
-              TextButton(
-                child: Text(
-                  '✕',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '÷',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CalculatorButton(
-                child: Text(
-                  '4',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '7',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '4';
-                  }),
               ),
-              CalculatorButton(
-                child: Text(
-                  '5',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '7';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '8',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '5';
-                  }),
               ),
-              CalculatorButton(
-                child: Text(
-                  '6',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '8';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '9',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '6';
-                  }),
               ),
-              TextButton(
-                child: Text(
-                  '−',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '9';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '✕',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CalculatorButton(
-                child: Text(
-                  '1',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '4',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '1';
-                  }),
               ),
-              CalculatorButton(
-                child: Text(
-                  '2',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '4';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '5',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '2';
-                  }),
               ),
-              CalculatorButton(
-                child: Text(
-                  '3',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '5';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '6',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '3';
-                  }),
               ),
-              TextButton(
-                child: Text(
-                  '+',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '6';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '−',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CalculatorButton(
-                child: Text(
-                  '0',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '1',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '0';
-                  }),
               ),
-              CalculatorButton(
-                child: Text(
-                  '.',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '1';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '2',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () =>
-                  setState(() {
-                    value += '.';
-                  }),
               ),
-              CalculatorButton(
-                child: Icon(
-                  Icons.keyboard_backspace,
-                  size: Theme.of(context).textTheme.displayLarge!.fontSize,
-                  color: Theme.of(context).textTheme.displayLarge!.color,
+              onPressed: () =>
+                setState(() {
+                  value += '2';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '3',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-              TextButton(
-                child: Text(
-                  '=',
-                  style: Theme.of(context).textTheme.displayLarge,
+              onPressed: () =>
+                setState(() {
+                  value += '3';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '+',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
                 ),
-                onPressed: () {},
               ),
-            ],
-          ),
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '0',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
+                ),
+              ),
+              onPressed: () =>
+                setState(() {
+                  value += '0';
+                }),
+            ),
+            CalculatorButton(
+              child: Text(
+                '.',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
+                ),
+              ),
+              onPressed: () =>
+                setState(() {
+                  value += '.';
+                }),
+            ),
+            CalculatorButton(
+              child: Icon(
+                Icons.backspace,
+                size: Theme.of(context).textTheme.headlineLarge!.fontSize,
+                color: Theme.of(context).colorScheme.background,
+              ),
+              onPressed: () {},
+            ),
+            CalculatorButton(
+              child: Text(
+                '=',
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.background,
+                ),
+              ),
+              onPressed: () {},
+            ),
+          ],
         ),
       ],
     );

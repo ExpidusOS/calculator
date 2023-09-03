@@ -1,3 +1,4 @@
+import 'package:calculator/logic.dart';
 import 'package:flutter/material.dart';
 import 'package:libtokyo_flutter/libtokyo.dart' hide Color;
 import 'calculator_box.dart';
@@ -16,22 +17,19 @@ class BasicCalculator extends StatefulWidget {
 }
 
 class _BasicCalculator extends State<BasicCalculator> {
-  String _value = '';
+  CalculatorMachine machine = CalculatorMachine();
 
-  void _update(String value) {
-    setState(() {
-      _value = value;
-      if (widget.onChanged != null) {
-        widget.onChanged!(_value);
-      }
-    });
+  void _update() {
+    if (widget.onChanged != null) {
+      widget.onChanged!(machine.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) =>
     Column(
       children: [
-        CalculatorBox(value: _value),
+        CalculatorBox(value: machine.toString()),
         GridView(
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -82,7 +80,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(''),
+              onPressed: () {
+                machine.reset();
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(
@@ -118,7 +119,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '7'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -127,7 +128,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '8'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -136,7 +137,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '9'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -154,7 +155,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '4'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -163,7 +164,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '5'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -172,7 +173,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '6'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -190,7 +191,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '1'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -199,7 +200,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '2'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -208,7 +209,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '3'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -226,7 +227,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '0'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Text(
@@ -235,7 +236,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(_value + '.'),
+              onPressed: () => _update(),
             ),
             CalculatorButton(
               child: Icon(
@@ -250,11 +251,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                   0.25
                 ))
               ),
-              onPressed: () {
-                if (_value.length > 0) {
-                  _update(_value.substring(0, _value.length - 1));
-                }
-              },
+              onPressed: () {},
             ),
             CalculatorButton(
              child: Text(

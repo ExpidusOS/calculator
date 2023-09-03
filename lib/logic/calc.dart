@@ -237,6 +237,19 @@ class CalculatorInstructionBuilder {
     _entries.clear();
   }
 
+  CalculatorData _entry2data(CalculatorInstructionBuilderEntry entry) {
+    if (entry.kind == CalculatorInstructionBuilderEntryKind.pi) {
+      return CalculatorData(
+        source: CalculatorDataSource.constant,
+        constantValue: pi,
+      );
+    }
+    return CalculatorData(
+      source: CalculatorDataSource.constant,
+      constantValue: entry.constantValue,
+    );
+  }
+
   void commit(CalculatorMachine machine) {
     final canCommit = _entries.length % 2 == 1 && _entries.length > 1;
     if (!canCommit) return;
@@ -247,19 +260,10 @@ class CalculatorInstructionBuilder {
         continue;
       }
 
-      final prev = _entries[i - 1];
-      final next = _entries[i + 1];
-
       machine.add(CalculatorInstruction(
         opcode: _entries[i].opcode!,
-        dataLeft: CalculatorData(
-          source: CalculatorDataSource.constant,
-          constantValue: prev.constantValue,
-        ),
-        dataRight: CalculatorData(
-          source: CalculatorDataSource.constant,
-          constantValue: next.constantValue,
-        ),
+        dataLeft: _entry2data(_entries[i - 1]),
+        dataRight: _entry2data(_entries[i + 1]),
       ));
     }
   }

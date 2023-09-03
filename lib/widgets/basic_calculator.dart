@@ -45,7 +45,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sqrt));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(

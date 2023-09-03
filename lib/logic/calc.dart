@@ -8,8 +8,9 @@ double _sub(double a, double b) => a - b;
 double _mul(double a, double b) => a * b;
 double _div(double a, double b) => a / b;
 double _mod(double a, double b) => a % b;
-double _not(double a, double b) => b == 1 ? 0 : 1;
+double _not(double a, double b) => b >= 1 ? 0 : b;
 double _pow(double a, double b) => pow(a, b).toDouble();
+double _sqrt(double a, double b) => sqrt(b);
 
 enum CalculatorOpcode {
   add(_add, '+'),
@@ -17,13 +18,15 @@ enum CalculatorOpcode {
   mul(_mul, '✕'),
   div(_div, '÷'),
   mod(_mod, '%'),
-  not(_not, '!'),
-  pow(_pow, '^');
+  not(_not, '!', singleInput: true),
+  pow(_pow, '^'),
+  sqrt(_sqrt, '√', singleInput: true);
 
-  const CalculatorOpcode(this.exec, this.display);
+  const CalculatorOpcode(this.exec, this.display, { this.singleInput = false });
 
   final CalculatorInstructionCallback exec;
   final String display;
+  final bool singleInput;
 }
 
 enum CalculatorDataSource {
@@ -175,8 +178,9 @@ class CalculatorInstructionBuilder {
 
   void add(CalculatorInstructionBuilderEntry entry) {
     if (_entries.isEmpty && (entry.kind == CalculatorInstructionBuilderEntryKind.closedParens || entry.kind == CalculatorInstructionBuilderEntryKind.opcode || entry.kind == CalculatorInstructionBuilderEntryKind.closedParens)) {
-      print(entry.kind);
-      return;
+      if (entry.kind == CalculatorInstructionBuilderEntry.opcode && !entry.opcode!.singleInput) {
+        return;
+      }
     }
 
     if (_entries.isNotEmpty) {
@@ -198,8 +202,10 @@ class CalculatorInstructionBuilder {
           hasDecimal: true
         );
         return;
+      } else if (_entries.last.kind == CalculatorInstructionBuilderEntryKind.opcode && entry.kind == CalculatorInstructionBuilderEntryKind.opcode) {
+        return;
       }
-    } 
+    }
 
     _entries.add(entry);
   }
@@ -250,11 +256,24 @@ class CalculatorInstructionBuilder {
     );
   }
 
+  CalculatorData _fetch(int i) {
+    if (i < 0 || i >= _entries.length) {
+      return CalculatorData(
+        source: CalculatorDataSource.constant,
+        constantValue: 0,
+      );
+    }
+
+    return _entry2data(_entries[i]);
+  }
+
   void commit(CalculatorMachine machine) {
-    final canCommit = _entries.length % 2 == 1 && _entries.length > 1;
+    // TODO: most of the time, operations will be a multiple of 3 but that won't always be the case.
+    // Need to determine how to figure out if the number of entries is valid for an operation.
+    final canCommit = _entries.length > 1;
     if (!canCommit) return;
 
-    for (var i = 1; i < _entries.length; i += 2) {
+    for (var i = 0; i < _entries.length; i += 2) {
       if (_entries[i].kind != CalculatorInstructionBuilderEntryKind.opcode) {
         i -= 1;
         continue;
@@ -262,8 +281,8 @@ class CalculatorInstructionBuilder {
 
       machine.add(CalculatorInstruction(
         opcode: _entries[i].opcode!,
-        dataLeft: _entry2data(_entries[i - 1]),
-        dataRight: _entry2data(_entries[i + 1]),
+        dataLeft: _fetch(i - 1),
+        dataRight: _fetch(i + 1),
       ));
     }
   }

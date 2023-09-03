@@ -158,11 +158,25 @@ class CalculatorInstructionBuilder {
   List<CalculatorInstructionBuilderEntry> _entries = [];
 
   void add(CalculatorInstructionBuilderEntry entry) {
+    if (_entries.isNotEmpty) {
+      if (_entries.last.kind == entry.kind && entry.kind == CalculatorInstructionBuilderEntryKind.value) {
+        _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value((_entries.last.constantValue * 10) + entry.constantValue);
+        return;
+      }
+    }
+
     _entries.add(entry);
   }
 
   void remove() {
-    if (_entries.isNotEmpty) _entries.removeLast();
+    if (_entries.isNotEmpty) {
+      if (_entries.last.kind == CalculatorInstructionBuilderEntryKind.value && _entries.last.constantValue >= 10) {
+        _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value((_entries.last.constantValue / 10).toInt());
+        return;
+      }
+
+      _entries.removeLast();
+    }
   }
 
   void clear() {

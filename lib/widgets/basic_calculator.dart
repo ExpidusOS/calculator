@@ -270,7 +270,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () => _update(),
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.special(CalculatorInstructionBuilderEntryKind.decimal));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Icon(

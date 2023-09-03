@@ -118,20 +118,33 @@ class CalculatorInstructionBuilderEntry {
   const CalculatorInstructionBuilderEntry({
     required this.kind,
     this.constantValue = 0,
+    this.hasDecimal = false,
     this.opcode,
   });
 
   const CalculatorInstructionBuilderEntry.opcode(this.opcode)
     : kind = CalculatorInstructionBuilderEntryKind.opcode,
-      constantValue = 0;
+      constantValue = 0,
+      hasDecimal = false;
 
-  const CalculatorInstructionBuilderEntry.value(this.constantValue)
+  const CalculatorInstructionBuilderEntry.value(this.constantValue, {
+    this.hasDecimal = false,
+  })
     : kind = CalculatorInstructionBuilderEntryKind.value,
       opcode = null;
 
+  const CalculatorInstructionBuilderEntry.special(this.kind)
+    : constantValue = 0,
+      opcode = null,
+      hasDecimal = false;
+
   final CalculatorInstructionBuilderEntryKind kind;
-  final int constantValue;
+  final double constantValue;
+  final bool hasDecimal;
   final CalculatorOpcode? opcode;
+
+  bool get isWhole => constantValue.remainder(constantValue.toInt()) == 0;
+  int get decimalPlaces => isWhole && hasDecimal ? 0 : constantValue.toString().split('.')[1].length;
 
   @override
   String toString() {
@@ -139,7 +152,7 @@ class CalculatorInstructionBuilderEntry {
       case CalculatorInstructionBuilderEntryKind.opcode:
         return opcode!.display;
       case CalculatorInstructionBuilderEntryKind.value:
-        return '$constantValue';
+        return isWhole ? '${constantValue.toInt()}${hasDecimal ? "." : ""}' : '$constantValue';
       case CalculatorInstructionBuilderEntryKind.decimal:
         return '.';
       case CalculatorInstructionBuilderEntryKind.openParens:
@@ -158,12 +171,32 @@ class CalculatorInstructionBuilder {
   List<CalculatorInstructionBuilderEntry> _entries = [];
 
   void add(CalculatorInstructionBuilderEntry entry) {
+    if (_entries.isEmpty && (entry.kind == CalculatorInstructionBuilderEntryKind.closedParens || entry.kind == CalculatorInstructionBuilderEntryKind.opcode || entry.kind == CalculatorInstructionBuilderEntryKind.closedParens)) {
+      print(entry.kind);
+      return;
+    }
+
     if (_entries.isNotEmpty) {
       if (_entries.last.kind == entry.kind && entry.kind == CalculatorInstructionBuilderEntryKind.value) {
-        _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value((_entries.last.constantValue * 10) + entry.constantValue);
+        if (_entries.last.hasDecimal) {
+          // TODO: This is dumb and should NEVER be done again, we should be shifting decimal places but trying to type 55.55 we got 55.75.
+          // The code was "_entries.last.constantValue + (entry.constantValue / ((_entries.last.decimalPlaces + 1) * 10))"
+          _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value(
+            double.parse((_entries.last.decimalPlaces == 0 ? '${_entries.last.constantValue.toInt()}.' : _entries.last.constantValue.toString()) + entry.constantValue.toInt().toString()),
+            hasDecimal: true
+          );
+        } else {
+          _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value((_entries.last.constantValue * 10) + entry.constantValue);
+        }
+        return;
+      } else if (_entries.last.kind == CalculatorInstructionBuilderEntryKind.value && entry.kind == CalculatorInstructionBuilderEntryKind.decimal) {
+        _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value(
+          _entries.last.constantValue,
+          hasDecimal: true
+        );
         return;
       }
-    }
+    } 
 
     _entries.add(entry);
   }
@@ -171,7 +204,25 @@ class CalculatorInstructionBuilder {
   void remove() {
     if (_entries.isNotEmpty) {
       if (_entries.last.kind == CalculatorInstructionBuilderEntryKind.value && _entries.last.constantValue >= 10) {
-        _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value((_entries.last.constantValue / 10).toInt());
+        if (_entries.last.isWhole && !_entries.last.hasDecimal) {
+          _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value(
+            (_entries.last.constantValue / 10).toInt() * 1.0,
+            hasDecimal: _entries.last.hasDecimal
+          );
+        } else if (_entries.last.isWhole && _entries.last.hasDecimal) {
+          _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value(
+            _entries.last.constantValue,
+            hasDecimal: false
+          );
+        } else if (!_entries.last.isWhole && _entries.last.hasDecimal) {
+          // TODO: Another very... very.. dumb way of removing decimals off a number.
+          // This shouldn't be done this way because of performance but for simplicities sake, it is done dumb.
+          final l = _entries.last.constantValue.toString().split('.');
+          _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value(
+            double.parse('${l[0]}.${l[1].substring(0, l[1].length - 1)}'),
+            hasDecimal: true
+          );
+        }
         return;
       }
 

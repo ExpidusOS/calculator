@@ -63,7 +63,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.pow));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(
@@ -74,6 +77,7 @@ class _BasicCalculator extends State<BasicCalculator> {
               ),
               onPressed: () {
                 builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.not));
+                _update();
               },
             ),
             CalculatorButton(
@@ -105,7 +109,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mod));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(
@@ -114,7 +121,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.div));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(
@@ -159,7 +169,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mul));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(
@@ -204,7 +217,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sub));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(
@@ -249,7 +265,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.add));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(
@@ -301,6 +320,8 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
+                builder.commit(machine);
+                builder.clear();
                 machine.exec();
                 _update();
               },

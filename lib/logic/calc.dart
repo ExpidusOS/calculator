@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 
 typedef double CalculatorInstructionCallback(double a, double b);
@@ -8,6 +9,7 @@ double _mul(double a, double b) => a * b;
 double _div(double a, double b) => a / b;
 double _mod(double a, double b) => a % b;
 double _not(double a, double b) => b == 1 ? 0 : 1;
+double _pow(double a, double b) => pow(a, b).toDouble();
 
 enum CalculatorOpcode {
   add(_add, '+'),
@@ -15,7 +17,8 @@ enum CalculatorOpcode {
   mul(_mul, '✕'),
   div(_div, '÷'),
   mod(_mod, '%'),
-  not(_not, '!');
+  not(_not, '!'),
+  pow(_pow, '^');
 
   const CalculatorOpcode(this.exec, this.display);
 
@@ -232,6 +235,33 @@ class CalculatorInstructionBuilder {
 
   void clear() {
     _entries.clear();
+  }
+
+  void commit(CalculatorMachine machine) {
+    final canCommit = _entries.length % 2 == 1 && _entries.length > 1;
+    if (!canCommit) return;
+
+    for (var i = 1; i < _entries.length; i += 2) {
+      if (_entries[i].kind != CalculatorInstructionBuilderEntryKind.opcode) {
+        i -= 1;
+        continue;
+      }
+
+      final prev = _entries[i - 1];
+      final next = _entries[i + 1];
+
+      machine.add(CalculatorInstruction(
+        opcode: _entries[i].opcode!,
+        dataLeft: CalculatorData(
+          source: CalculatorDataSource.constant,
+          constantValue: prev.constantValue,
+        ),
+        dataRight: CalculatorData(
+          source: CalculatorDataSource.constant,
+          constantValue: next.constantValue,
+        ),
+      ));
+    }
   }
 
   @override

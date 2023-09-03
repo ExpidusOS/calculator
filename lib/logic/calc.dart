@@ -105,6 +105,74 @@ class CalculatorInstruction {
     '${printLeft()} ${opcode.display} ${printRight()}';
 }
 
+enum CalculatorInstructionBuilderEntryKind {
+  opcode,
+  value,
+  decimal,
+  openParens,
+  closedParens,
+  pi
+}
+
+class CalculatorInstructionBuilderEntry {
+  const CalculatorInstructionBuilderEntry({
+    required this.kind,
+    this.constantValue = 0,
+    this.opcode,
+  });
+
+  const CalculatorInstructionBuilderEntry.opcode(this.opcode)
+    : kind = CalculatorInstructionBuilderEntryKind.opcode,
+      constantValue = 0;
+
+  const CalculatorInstructionBuilderEntry.value(this.constantValue)
+    : kind = CalculatorInstructionBuilderEntryKind.value,
+      opcode = null;
+
+  final CalculatorInstructionBuilderEntryKind kind;
+  final int constantValue;
+  final CalculatorOpcode? opcode;
+
+  @override
+  String toString() {
+    switch (kind) {
+      case CalculatorInstructionBuilderEntryKind.opcode:
+        return opcode!.display;
+      case CalculatorInstructionBuilderEntryKind.value:
+        return '$constantValue';
+      case CalculatorInstructionBuilderEntryKind.decimal:
+        return '.';
+      case CalculatorInstructionBuilderEntryKind.openParens:
+        return '(';
+      case CalculatorInstructionBuilderEntryKind.closedParens:
+        return ')';
+      case CalculatorInstructionBuilderEntryKind.pi:
+        return '𐍀';
+    }
+  }
+}
+
+class CalculatorInstructionBuilder {
+  CalculatorInstructionBuilder();
+
+  List<CalculatorInstructionBuilderEntry> _entries = [];
+
+  void add(CalculatorInstructionBuilderEntry entry) {
+    _entries.add(entry);
+  }
+
+  void remove() {
+    if (_entries.isNotEmpty) _entries.removeLast();
+  }
+
+  void clear() {
+    _entries.clear();
+  }
+
+  @override
+  String toString() => _entries.map((entry) => entry.toString()).join();
+}
+
 class CalculatorMachine extends ChangeNotifier {
   CalculatorMachine();
 
@@ -122,6 +190,7 @@ class CalculatorMachine extends ChangeNotifier {
   }
 
   void reset() {
+    _result = null;
     _prog.clear();
     notifyListeners();
   }

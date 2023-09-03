@@ -329,6 +329,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 builder.commit(machine);
                 builder.clear();
                 machine.exec();
+                builder.add(CalculatorInstructionBuilderEntry.value(machine.result));
                 _update();
               },
             ),

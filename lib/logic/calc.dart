@@ -245,7 +245,7 @@ class CalculatorInstructionBuilder {
 
   CalculatorData _entry2data(CalculatorInstructionBuilderEntry entry) {
     if (entry.kind == CalculatorInstructionBuilderEntryKind.pi) {
-      return CalculatorData(
+      return const CalculatorData(
         source: CalculatorDataSource.constant,
         constantValue: pi,
       );
@@ -258,7 +258,7 @@ class CalculatorInstructionBuilder {
 
   CalculatorData _fetch(int i) {
     if (i < 0 || i >= _entries.length) {
-      return CalculatorData(
+      return const CalculatorData(
         source: CalculatorDataSource.constant,
         constantValue: 0,
       );
@@ -296,6 +296,8 @@ class CalculatorMachine extends ChangeNotifier {
 
   List<CalculatorInstruction> _prog = [];
   double? _result;
+
+  double get result => _result ?? 0;
 
   void add(CalculatorInstruction instr) {
     _prog.add(instr);

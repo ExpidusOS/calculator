@@ -1,6 +1,5 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:calculator/widgets.dart';
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:libtokyo_flutter/libtokyo.dart';
 
 class MainView extends StatefulWidget {
@@ -11,7 +10,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  String _value = '';
+  final type = ValueNotifier(CalculatorViewType.standard);
 
   @override
   Widget build(BuildContext context) =>
@@ -20,21 +19,23 @@ class _MainViewState extends State<MainView> {
         leading: Image.asset('assets/imgs/icon.png'),
         title: const Text('Calculator'), // TODO: i18n
       ) : null,
-      body: AdaptiveLayout(
-        body: SlotLayout(
-          config: <Breakpoint, SlotLayoutConfig>{
-            Breakpoints.small: SlotLayout.from(
-              key: const Key('smallBody'),
-              builder: (_) =>
-                BasicCalculator(
-                  onChanged: (value) =>
-                    setState(() {
-                      _value = value;
-                    }),
-                ),
-            ),
-          }
-        ),
+      appBar: AppBar(
+        title: Text('${type.value.name.substring(0, 1).toUpperCase()}${type.value.name.substring(1)}'), // TODO: i18n
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: CalculatorViewType.standard,
+                child: const Text('Standard'), // TODO: i18n
+              ),
+            ],
+            onSelected: (value) =>
+              setState(() {
+                type.value = value;
+              }),
+          ),
+        ],
       ),
+      body: CalculatorView(value: type),
     );
 }

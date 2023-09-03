@@ -11,11 +11,11 @@ class CalculatorBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
     Material(
-      color: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.background,
       child: TextField(
         textAlign: TextAlign.end,
         style: Theme.of(context).textTheme.displayLarge!.copyWith(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
         controller: TextEditingController(text: value),
         cursorColor: Theme.of(context).colorScheme.primary,

@@ -1,4 +1,5 @@
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:flutter/material.dart';
+import 'package:libtokyo_flutter/libtokyo.dart' hide Color;
 
 class CalculatorButton extends StatelessWidget {
   const CalculatorButton({
@@ -19,7 +20,13 @@ class CalculatorButton extends StatelessWidget {
       child: child,
       onPressed: onPressed,
       style: style ?? ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.tertiary),
+        backgroundColor: MaterialStatePropertyAll(
+          Color.lerp(
+            Theme.of(context).colorScheme.secondary,
+            Theme.of(context).colorScheme.background,
+            0.25
+          )
+        ),
       ),
     );
 

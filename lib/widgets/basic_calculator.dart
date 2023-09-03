@@ -1,4 +1,5 @@
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:flutter/material.dart';
+import 'package:libtokyo_flutter/libtokyo.dart' hide Color;
 import 'calculator_box.dart';
 import 'calculator_button.dart';
 
@@ -243,7 +244,11 @@ class _BasicCalculator extends State<BasicCalculator> {
                 color: Theme.of(context).colorScheme.background,
               ),
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.error),
+                backgroundColor: MaterialStatePropertyAll(Color.lerp(
+                  Theme.of(context).colorScheme.error,
+                  Theme.of(context).colorScheme.background,
+                  0.25
+                ))
               ),
               onPressed: () {
                 if (_value.length > 0) {

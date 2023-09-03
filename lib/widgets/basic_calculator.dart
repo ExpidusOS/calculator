@@ -260,7 +260,12 @@ class _BasicCalculator extends State<BasicCalculator> {
               ),
               onPressed: () {},
             ),
-          ],
+          ].map((child) =>
+            Padding(
+              padding: const EdgeInsets.all(2),
+              child: child,
+            )
+          ).toList(),
         ),
       ],
     );

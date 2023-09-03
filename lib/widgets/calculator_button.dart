@@ -6,25 +6,30 @@ class CalculatorButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
     this.style,
+    this.constrained = false,
   });
 
   final Widget child;
   final VoidCallback onPressed;
   final ButtonStyle? style;
+  final bool constrained;
+
+  Widget _buildMain(BuildContext context) =>
+    OutlinedButton(
+      child: child,
+      onPressed: onPressed,
+      style: style ?? ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.tertiary),
+      ),
+    );
 
   @override
   Widget build(BuildContext context) =>
-    Center(
+    constrained ? Center(
       child: Container(
         width: 80,
         height: 80,
-        child: OutlinedButton(
-          child: child,
-          onPressed: onPressed,
-          style: style ?? ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.tertiary),
-          ),
-        ),
+        child: _buildMain(context),
       ),
-    );
+    ) : _buildMain(context);
 }

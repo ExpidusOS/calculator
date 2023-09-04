@@ -3,6 +3,8 @@
   "applicationTitle": "Calculator",
   "modeStandard": "Standard",
   "modeGraphing": "Graphing",
+  "settingsOptInErrorReportingTitle": "Opt-in to error reporting via Sentry",
+  "settingsOptInErrorReportingSubtitle": "Will take effect after restarting the application",
   "settingsTheme": "Theme",
   "settingsRestore": "Restore default settings",
   "viewAbout": "About",

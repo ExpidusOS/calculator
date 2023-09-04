@@ -4,6 +4,8 @@
   "modeStandard": "Standard",
   "modeGraphing": "Graphing",
   "settingsTheme": "Theme",
+  "settingsOptInErrorReportingTitle": "Opt-in to error reporting via Sentry",
+  "settingsOptInErrorReportingSubtitle": "Will take effect after restarting the application",
   "settingsRestore": "Restore default settings",
   "viewAbout": "About",
   "viewPrivacy": "Privacy Policy",

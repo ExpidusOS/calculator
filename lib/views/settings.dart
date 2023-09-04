@@ -105,8 +105,8 @@ class _SettingsViewState extends State<SettingsView> {
             ),
             ...(const String.fromEnvironment('SENTRY_DSN', defaultValue: '').isNotEmpty ? [
               SwitchListTile(
-                title: const Text('Opt-in to error reporting via Sentry'), // TODO: i18n
-                subtitle: const Text('Will take effect after restarting the application'), // TODO: i18n
+                title: Text(AppLocalizations.of(context)!.settingsOptInErrorReportingTitle),
+                subtitle: Text(AppLocalizations.of(context)!.settingsOptInErrorReportingSubtitle),
                 value: optInErrorReporting,
                 onChanged: (value) {
                   preferences.setBool(

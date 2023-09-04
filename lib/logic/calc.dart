@@ -8,7 +8,17 @@ double _sub(double a, double b) => a - b;
 double _mul(double a, double b) => a * b;
 double _div(double a, double b) => a / b;
 double _mod(double a, double b) => a % b;
-double _not(double a, double b) => b >= 1 ? 0 : b;
+
+double _not(double a, double b) {
+  var fac = 1.0;
+
+  for (var i = b; i >= 1.0; i--) {
+    fac *= i;
+  }
+
+  return fac;
+}
+
 double _pow(double a, double b) => pow(a, b).toDouble();
 double _sqrt(double a, double b) => sqrt(b);
 

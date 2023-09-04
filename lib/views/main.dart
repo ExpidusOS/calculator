@@ -28,6 +28,10 @@ class _MainViewState extends State<MainView> {
                 value: CalculatorViewType.standard,
                 child: const Text('Standard'), // TODO: i18n
               ),
+              PopupMenuItem(
+                value: CalculatorViewType.graphing,
+                child: const Text('Graphing'), // TODO: i18n
+              ),
             ],
             onSelected: (value) =>
               setState(() {

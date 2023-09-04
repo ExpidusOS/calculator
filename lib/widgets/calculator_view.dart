@@ -1,9 +1,11 @@
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:libtokyo_flutter/libtokyo.dart';
 import 'basic_calculator.dart';
+import 'graphing_calculator.dart';
 
 enum CalculatorViewType {
-  standard
+  standard,
+  graphing,
 }
 
 class CalculatorView extends StatefulWidget {
@@ -48,21 +50,27 @@ class _CalculatorViewState extends State<CalculatorView> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-    AdaptiveLayout(
-      body: SlotLayout(
-        config: <Breakpoint, SlotLayoutConfig>{
-          Breakpoints.small: SlotLayout.from(
-            key: const Key('smallBody'),
-            builder: (_) =>
-              BasicCalculator(
-                onChanged: (value) =>
-                  setState(() {
-                    _value = value;
-                  }),
+  Widget build(BuildContext context) {
+    switch (type) {
+      case CalculatorViewType.graphing:
+        return const GraphingCalculator();
+      case CalculatorViewType.standard:
+        return AdaptiveLayout(
+          body: SlotLayout(
+            config: <Breakpoint, SlotLayoutConfig>{
+              Breakpoints.small: SlotLayout.from(
+                key: const Key('smallBody'),
+                builder: (_) =>
+                  BasicCalculator(
+                    onChanged: (value) =>
+                      setState(() {
+                        _value = value;
+                      }),
+                  ),
               ),
+            },
           ),
-        },
-      ),
-    );
+        );
+    }
+  }
 }

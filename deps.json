@@ -11,6 +11,7 @@
       "flutter_localizations",
       "libtokyo",
       "libtokyo_flutter",
+      "math_expressions",
       "provider",
       "shared_preferences",
       "flutter_test",
@@ -452,6 +453,15 @@
     "source": "hosted",
     "dependencies": [
       "flutter"
+    ]
+  },
+  {
+    "name": "math_expressions",
+    "version": "2.4.0",
+    "kind": "direct",
+    "source": "hosted",
+    "dependencies": [
+      "vector_math"
     ]
   },
   {

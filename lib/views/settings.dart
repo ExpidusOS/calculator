@@ -93,11 +93,11 @@ class _SettingsViewState extends State<SettingsView> {
                   if (value != null) {
                     preferences.setString(
                       CalculatorSettings.colorScheme.name,
-                      value!.name
+                      value.name
                     );
 
                     setState(() {
-                      colorScheme = value!;
+                      colorScheme = value;
                       CalculatorApp.reload(context);
                     });
                   }
@@ -111,11 +111,10 @@ class _SettingsViewState extends State<SettingsView> {
                 onChanged: (value) {
                   preferences.setBool(
                     CalculatorSettings.optInErrorReporting.name,
-                    value!
-                  );
+                    value);
 
                   setState(() {
-                    optInErrorReporting = value!;
+                    optInErrorReporting = value;
                   });
                 }
               ),

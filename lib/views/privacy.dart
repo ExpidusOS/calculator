@@ -48,7 +48,10 @@ class PrivacyView extends StatelessWidget {
                 },
                 onTapLink: (text, href, title) {
                   if (href != null) {
-                    launchUrlString(href!).catchError((error, trace) => reportError(error, trace: trace));
+                    launchUrlString(href).catchError((error, trace) {
+                      reportError(error, trace: trace);
+                      return false;
+                    });
                   }
                 },
               );

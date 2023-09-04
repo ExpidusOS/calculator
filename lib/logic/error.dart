@@ -1,6 +1,5 @@
 import 'package:calculator/logic.dart';
 import 'package:flutter/material.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool reportFlutterError(Object e, { StackTrace? trace }) {

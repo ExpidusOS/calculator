@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Color;
 import 'package:libtokyo_flutter/libtokyo.dart' hide Color;
 
 class CalculatorButton extends StatelessWidget {
@@ -17,7 +17,6 @@ class CalculatorButton extends StatelessWidget {
 
   Widget _buildMain(BuildContext context) =>
     OutlinedButton(
-      child: child,
       onPressed: onPressed,
       style: style ?? ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(
@@ -28,6 +27,7 @@ class CalculatorButton extends StatelessWidget {
           )
         ),
       ),
+      child: child,
     );
 
   @override

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 
-typedef double CalculatorInstructionCallback(double a, double b);
+typedef CalculatorInstructionCallback = double Function(double a, double b);
 
 double _add(double a, double b) => a + b;
 double _sub(double a, double b) => a - b;
@@ -199,7 +199,7 @@ class _CalculatorInstructionBuilderParens {
 class CalculatorInstructionBuilder {
   CalculatorInstructionBuilder();
 
-  List<CalculatorInstructionBuilderEntry> _entries = [];
+  final List<CalculatorInstructionBuilderEntry> _entries = [];
 
   bool get canCloseParens {
     for (var i = 0; i < _entries.length; i++) {
@@ -248,7 +248,7 @@ class CalculatorInstructionBuilder {
       if (_entries.last.kind == CalculatorInstructionBuilderEntryKind.value && _entries.last.constantValue >= 10) {
         if (_entries.last.isWhole && !_entries.last.hasDecimal) {
           _entries[_entries.length - 1] = CalculatorInstructionBuilderEntry.value(
-            (_entries.last.constantValue / 10).toInt() * 1.0,
+            _entries.last.constantValue ~/ 10 * 1.0,
             hasDecimal: _entries.last.hasDecimal
           );
         } else if (_entries.last.isWhole && _entries.last.hasDecimal) {
@@ -302,8 +302,8 @@ class CalculatorInstructionBuilder {
 
   _CalculatorInstructionBuilderParens _commit(int offset, int length) {
     // FIXME: Figure out how to actually do parenstheses.
-    CalculatorData? dataLeft = null;
-    CalculatorData? dataRight = null;
+    CalculatorData? dataLeft;
+    CalculatorData? dataRight;
     List<CalculatorInstruction> innerLeft = [];
     List<CalculatorInstruction> innerRight = [];
 
@@ -347,7 +347,7 @@ class CalculatorInstructionBuilder {
 class CalculatorMachine extends ChangeNotifier {
   CalculatorMachine();
 
-  List<CalculatorInstruction> _prog = [];
+  final List<CalculatorInstruction> _prog = [];
   double? _result;
 
   double get result => _result ?? 0;

@@ -1,5 +1,5 @@
 import 'package:calculator/logic.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Color;
 import 'package:libtokyo_flutter/libtokyo.dart' hide Color;
 import 'calculator_box.dart';
 import 'calculator_button.dart';
@@ -46,7 +46,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sqrt));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sqrt));
                 _update();
               },
             ),
@@ -58,7 +58,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.special(CalculatorInstructionBuilderEntryKind.pi));
+                builder.add(const CalculatorInstructionBuilderEntry.special(CalculatorInstructionBuilderEntryKind.pi));
                 _update();
               },
             ),
@@ -70,7 +70,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.pow));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.pow));
                 _update();
               },
             ),
@@ -82,7 +82,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.not));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.not));
                 _update();
               },
             ),
@@ -119,7 +119,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mod));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mod));
                 _update();
               },
             ),
@@ -131,7 +131,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.div));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.div));
                 _update();
               },
             ),
@@ -143,7 +143,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(7));
+                builder.add(const CalculatorInstructionBuilderEntry.value(7));
                 _update();
               }
             ),
@@ -155,7 +155,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(8));
+                builder.add(const CalculatorInstructionBuilderEntry.value(8));
                 _update();
               }
             ),
@@ -167,7 +167,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(9));
+                builder.add(const CalculatorInstructionBuilderEntry.value(9));
                 _update();
               }
             ),
@@ -179,7 +179,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mul));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mul));
                 _update();
               },
             ),
@@ -191,7 +191,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(4));
+                builder.add(const CalculatorInstructionBuilderEntry.value(4));
                 _update();
               }
             ),
@@ -203,7 +203,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(5));
+                builder.add(const CalculatorInstructionBuilderEntry.value(5));
                 _update();
               }
             ),
@@ -215,7 +215,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(6));
+                builder.add(const CalculatorInstructionBuilderEntry.value(6));
                 _update();
               }
             ),
@@ -227,7 +227,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sub));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sub));
                 _update();
               },
             ),
@@ -239,7 +239,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(1));
+                builder.add(const CalculatorInstructionBuilderEntry.value(1));
                 _update();
               }
             ),
@@ -251,7 +251,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(2));
+                builder.add(const CalculatorInstructionBuilderEntry.value(2));
                 _update();
               }
             ),
@@ -263,7 +263,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(3));
+                builder.add(const CalculatorInstructionBuilderEntry.value(3));
                 _update();
               }
             ),
@@ -275,7 +275,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.add));
+                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.add));
                 _update();
               },
             ),
@@ -287,7 +287,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.value(0));
+                builder.add(const CalculatorInstructionBuilderEntry.value(0));
                 _update();
               }
             ),
@@ -299,16 +299,11 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.special(CalculatorInstructionBuilderEntryKind.decimal));
+                builder.add(const CalculatorInstructionBuilderEntry.special(CalculatorInstructionBuilderEntryKind.decimal));
                 _update();
               },
             ),
             CalculatorButton(
-              child: Icon(
-                Icons.backspace,
-                size: Theme.of(context).textTheme.headlineLarge!.fontSize,
-                color: Theme.of(context).colorScheme.background,
-              ),
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Color.lerp(
                   Theme.of(context).colorScheme.error,
@@ -320,6 +315,11 @@ class _BasicCalculator extends State<BasicCalculator> {
                 setState(() {
                   builder.remove();
                 }),
+              child: Icon(
+                Icons.backspace,
+                size: Theme.of(context).textTheme.headlineLarge!.fontSize,
+                color: Theme.of(context).colorScheme.background,
+              ),
             ),
             CalculatorButton(
              child: Text(

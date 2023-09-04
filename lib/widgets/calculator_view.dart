@@ -22,7 +22,6 @@ class CalculatorView extends StatefulWidget {
 
 class _CalculatorViewState extends State<CalculatorView> {
   CalculatorViewType? _type;
-  String _value = '';
 
   bool get isState => widget.value == null && _type != null;
   bool get isStateless => widget.value != null && _type == null;
@@ -64,7 +63,6 @@ class _CalculatorViewState extends State<CalculatorView> {
                   BasicCalculator(
                     onChanged: (value) =>
                       setState(() {
-                        _value = value;
                       }),
                   ),
               ),

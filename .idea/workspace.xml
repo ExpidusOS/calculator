@@ -10,16 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6048e1c0-0fbf-49a4-a718-74e5a50a93c0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/logic/calc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/logic/calc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/logic/error.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/logic/error.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/views/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/views/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/views/privacy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/views/privacy.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/views/settings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/views/settings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/basic_calculator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/basic_calculator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/calculator_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/calculator_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/calculator_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/calculator_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

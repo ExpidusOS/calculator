@@ -18,10 +18,11 @@ Future<void> _runMain({
   required bool isSentry,
   required PubSpec pubspec,
 }) async {
-  runApp(CalculatorApp(
+  final app = CalculatorApp(
     isSentry: isSentry,
     pubspec: pubspec,
-  ));
+  );
+  runApp(isSentry ? DefaultAssetBundle(bundle: SentryAssetBundle(), child: app) : app);
 
   if (!kIsWeb) {
     switch (defaultTargetPlatform) {
@@ -143,6 +144,11 @@ class CalculatorAppState extends State<CalculatorApp> {
         onGenerateTitle: (context) => AppLocalizations.of(context)!.applicationTitle,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        navigatorObservers: widget.isSentry ? [
+          SentryNavigatorObserver(
+            setRouteNameAsTransaction: true,
+          ),
+        ] : null,
         routes: {
           '/': (context) => const MainView(),
           '/about': (context) => const AboutView(),

@@ -22,6 +22,9 @@ double _not(double a, double b) {
 double _pow(double a, double b) => pow(a, b).toDouble();
 double _sqrt(double a, double b) => sqrt(b);
 
+double _left(double a, double b) => a;
+double _right(double a, double b) => b;
+
 enum CalculatorOpcode {
   add(_add, '+'),
   sub(_sub, '-'),
@@ -30,7 +33,9 @@ enum CalculatorOpcode {
   mod(_mod, '%'),
   not(_not, '!', singleInput: true),
   pow(_pow, '^'),
-  sqrt(_sqrt, '√', singleInput: true);
+  sqrt(_sqrt, '√', singleInput: true),
+  left(_left, 'l'),
+  right(_right, 'r');
 
   const CalculatorOpcode(this.exec, this.display, { this.singleInput = false });
 
@@ -181,10 +186,28 @@ class CalculatorInstructionBuilderEntry {
   }
 }
 
+class _CalculatorInstructionBuilderParens {
+  const _CalculatorInstructionBuilderParens({
+    required this.offset,
+    required this.instr,
+  });
+
+  final int offset;
+  final CalculatorInstruction instr;
+}
+
 class CalculatorInstructionBuilder {
   CalculatorInstructionBuilder();
 
   List<CalculatorInstructionBuilderEntry> _entries = [];
+
+  bool get canCloseParens {
+    for (var i = 0; i < _entries.length; i++) {
+      final entry = _entries[i];
+      if (entry.kind == CalculatorInstructionBuilderEntryKind.openParens && i + 1 < _entries.length) return true;
+    }
+    return false;
+  }
 
   void add(CalculatorInstructionBuilderEntry entry) {
     if (_entries.isEmpty && (entry.kind == CalculatorInstructionBuilderEntryKind.closedParens || entry.kind == CalculatorInstructionBuilderEntryKind.opcode || entry.kind == CalculatorInstructionBuilderEntryKind.closedParens)) {
@@ -277,24 +300,44 @@ class CalculatorInstructionBuilder {
     return _entry2data(_entries[i]);
   }
 
+  _CalculatorInstructionBuilderParens _commit(int offset, int length) {
+    // FIXME: Figure out how to actually do parenstheses.
+    CalculatorData? dataLeft = null;
+    CalculatorData? dataRight = null;
+    List<CalculatorInstruction> innerLeft = [];
+    List<CalculatorInstruction> innerRight = [];
+
+    final opcode = offset == 0 ? CalculatorOpcode.left : _entries[offset].opcode!;
+
+    for (; offset < length; offset++) {
+      if (_entries[offset].kind != CalculatorInstructionBuilderEntryKind.opcode) continue;
+
+      innerLeft.add(CalculatorInstruction(
+        opcode: _entries[offset].opcode!,
+        dataLeft: _fetch(offset - 1),
+        dataRight: _fetch(offset + 1),
+      ));
+    }
+
+    return _CalculatorInstructionBuilderParens(
+      offset: offset,
+      instr: CalculatorInstruction(
+        opcode: opcode,
+        dataLeft: dataLeft,
+        dataRight: dataRight,
+        innerLeft: innerLeft,
+        innerRight: innerRight,
+      ),
+    );
+  }
+
   void commit(CalculatorMachine machine) {
     // TODO: most of the time, operations will be a multiple of 3 but that won't always be the case.
     // Need to determine how to figure out if the number of entries is valid for an operation.
     final canCommit = _entries.length > 1;
     if (!canCommit) return;
 
-    for (var i = 0; i < _entries.length; i += 2) {
-      if (_entries[i].kind != CalculatorInstructionBuilderEntryKind.opcode) {
-        i -= 1;
-        continue;
-      }
-
-      machine.add(CalculatorInstruction(
-        opcode: _entries[i].opcode!,
-        dataLeft: _fetch(i - 1),
-        dataRight: _fetch(i + 1),
-      ));
-    }
+    machine.add(_commit(0, _entries.length).instr);
   }
 
   @override

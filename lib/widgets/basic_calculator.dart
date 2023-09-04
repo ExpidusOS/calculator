@@ -106,7 +106,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                   color: Theme.of(context).colorScheme.background,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                builder.add(CalculatorInstructionBuilderEntry.special(builder.canCloseParens ? CalculatorInstructionBuilderEntryKind.closedParens : CalculatorInstructionBuilderEntryKind.openParens));
+                _update();
+              },
             ),
             CalculatorButton(
               child: Text(

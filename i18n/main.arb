@@ -1,1 +1,11 @@
-{}
+{
+  "applicationTitleFull": "ExpidusOS Calculator",
+  "applicationTitle": "Calculator",
+  "modeStandard": "Standard",
+  "modeGraphing": "Graphing",
+  "settingsTheme": "Theme",
+  "settingsRestore": "Restore default settings",
+  "viewAbout": "About",
+  "viewPrivacy": "Privacy Policy",
+  "viewSettings": "Settings"
+}

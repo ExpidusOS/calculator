@@ -51,7 +51,7 @@ class _GraphingCalculatorGraph extends CustomPainter {
             ..bindVariable(y, Number(0));
 
           final yiter = expr.evaluate(EvaluationType.REAL, cm);
-          points.add(Offset(xiter + centerX, (yiter * -1) + centerY));
+          if (!yiter.isNaN && yiter.isFinite) points.add(Offset(xiter + centerX, (yiter * -1) + centerY));
         } catch (ex) {
         }
       }

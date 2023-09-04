@@ -58,7 +58,7 @@ class _CalculatorViewState extends State<CalculatorView> {
         return AdaptiveLayout(
           body: SlotLayout(
             config: <Breakpoint, SlotLayoutConfig>{
-              Breakpoints.small: SlotLayout.from(
+              Breakpoints.smallAndUp: SlotLayout.from(
                 key: const Key('smallBody'),
                 builder: (_) =>
                   BasicCalculator(

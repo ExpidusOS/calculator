@@ -53,6 +53,7 @@ class _GraphingCalculatorGraph extends CustomPainter {
           final yiter = expr.evaluate(EvaluationType.REAL, cm);
           if (!yiter.isNaN && yiter.isFinite) points.add(Offset(xiter + centerX, (yiter * -1) + centerY));
         } catch (ex) {
+          // No action needed
         }
       }
     }
@@ -109,6 +110,7 @@ class _GraphingCalculatorState extends State<GraphingCalculator> {
                   try {
                     _expr = parser.parse(value);
                   } catch (e) {
+                    // No action needed
                   }
                 });
               }

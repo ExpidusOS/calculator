@@ -23,7 +23,7 @@ class _MainViewState extends State<MainView> {
         title: Text('${type.value.name.substring(0, 1).toUpperCase()}${type.value.name.substring(1)}'), // TODO: i18n
         actions: [
           PopupMenuButton(
-            itemBuilder: (context) => [
+            itemBuilder: (context) => <PopupMenuEntry<dynamic>>[
               PopupMenuItem(
                 value: CalculatorViewType.standard,
                 child: const Text('Standard'), // TODO: i18n
@@ -32,10 +32,19 @@ class _MainViewState extends State<MainView> {
                 value: CalculatorViewType.graphing,
                 child: const Text('Graphing'), // TODO: i18n
               ),
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                value: '/settings',
+                child: const Text('Settings'), // TODO: i18n
+              ),
             ],
             onSelected: (value) =>
               setState(() {
-                type.value = value;
+                if (value is CalculatorViewType) {
+                  type.value = value;
+                } else if (value is String) {
+                  Navigator.pushNamed(context, value);
+                }
               }),
           ),
         ],

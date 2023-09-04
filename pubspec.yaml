@@ -27,7 +27,11 @@ dependencies:
       ref: eb140908dd2435afdf6208cb84bd37db840b46df
       path: packages/libtokyo_flutter
   math_expressions: ^2.4.0
+  package_info_plus: ^3.1.2
   provider: ^6.0.5
+  pub_semver: ^2.1.4
+  pubspec: ^2.3.0
+  sentry_flutter: ^7.9.0
   shared_preferences: ^2.2.1
 
 dependency_overrides:

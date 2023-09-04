@@ -2,7 +2,8 @@ import 'package:libtokyo/libtokyo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum CalculatorSettings<T> {
-  colorScheme(ColorScheme.night);
+  colorScheme(ColorScheme.night),
+  optInErrorReporting(false);
 
   const CalculatorSettings(this.defaultValue);
 

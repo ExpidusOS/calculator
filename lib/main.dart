@@ -1,20 +1,106 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:calculator/logic.dart';
 import 'package:calculator/views.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:pub_semver/pub_semver.dart';
+import 'package:pubspec/pubspec.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const CalculatorApp());
+final kCommitHash = (const String.fromEnvironment('COMMIT_HASH', defaultValue: 'AAAAAAA')).substring(0, 7);
+
+Future<void> _runMain({
+  required bool isSentry,
+  required PubSpec pubspec,
+}) async {
+  runApp(CalculatorApp(
+    isSentry: isSentry,
+    pubspec: pubspec,
+  ));
+
+  if (!kIsWeb) {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.windows:
+      case TargetPlatform.macOS:
+      case TargetPlatform.linux:
+        doWhenWindowReady(() {
+          final win = appWindow;
+          const initialSize = Size(600, 450);
+
+          win.minSize = initialSize;
+          win.size = initialSize;
+          win.alignment = Alignment.center;
+          win.show();
+        });
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final pinfo = await PackageInfo.fromPlatform();
+
+  final pubspec = PubSpec.fromYamlString(await rootBundle.loadString('pubspec.yaml')).copy(
+    version: Version.parse("${pinfo.version}+$kCommitHash"),
+  );
+
+  const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
+  final prefs = await SharedPreferences.getInstance();
+
+  if (sentryDsn.isNotEmpty && (prefs.getBool(CalculatorSettings.optInErrorReporting.name) ?? false)) {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentryDsn;
+        options.tracesSampleRate = 1.0;
+        options.release = 'com.expidusos.calculator@${pubspec.version!}';
+        options.dist = pubspec.version!.toString();
+
+        if (kDebugMode) {
+          options.environment = 'debug';
+        } else if (kProfileMode) {
+          options.environment = 'profile';
+        } else if (kReleaseMode) {
+          options.environment = 'release';
+        }
+      },
+      appRunner: () => _runMain(
+        isSentry: true,
+        pubspec: pubspec,
+      ).catchError((error, trace) {
+        reportError(error, trace: trace);
+      }),
+    );
+  } else {
+    _runMain(
+      isSentry: false,
+      pubspec: pubspec,
+    );
+  }
 }
 
 class CalculatorApp extends StatefulWidget {
   const CalculatorApp({
     super.key,
+    this.isSentry = false,
+    required this.pubspec,
   });
+
+  final bool isSentry;
+  final PubSpec pubspec;
 
   @override
   State<CalculatorApp> createState() => CalculatorAppState();
+
+  static bool isSentryOnContext(BuildContext context) => context.findAncestorWidgetOfExactType<CalculatorApp>()!.isSentry;
+  static PubSpec getPubSpec(BuildContext context) => context.findAncestorWidgetOfExactType<CalculatorApp>()!.pubspec;
+  static Future<void> reload(BuildContext context) => context.findAncestorStateOfType<CalculatorAppState>()!.reload();
 }
 
 class CalculatorAppState extends State<CalculatorApp> {
@@ -29,8 +115,13 @@ class CalculatorAppState extends State<CalculatorApp> {
       preferences = prefs;
       _loadSettings();
     })).catchError((error, trace) {
-      // TODO
+      reportError(error, trace: trace);
     });
+  }
+
+  Future<void> reload() async {
+    await preferences.reload();
+    setState(() => _loadSettings());
   }
 
   void _loadSettings() {
@@ -49,7 +140,8 @@ class CalculatorAppState extends State<CalculatorApp> {
         colorScheme: colorScheme,
         colorSchemeDark: colorScheme,
         routes: {
-          '/': (context) => MainView(),
+          '/': (context) => const MainView(),
+          '/settings': (context) => const SettingsView(),
         },
       ),
     );

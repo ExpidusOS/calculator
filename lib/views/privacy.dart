@@ -1,6 +1,7 @@
 import 'package:calculator/logic.dart';
 import 'package:libtokyo_flutter/libtokyo.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' hide Text;
 import 'package:url_launcher/url_launcher_string.dart';
@@ -22,10 +23,10 @@ class PrivacyView extends StatelessWidget {
     Scaffold(
       windowBar: WindowBar.shouldShow(context) ? WindowBar(
         leading: Image.asset('assets/imgs/icon.png'),
-        title: const Text('Calculator'), // TODO: i18n
+        title: Text(AppLocalizations.of(context)!.applicationTitle), // TODO: i18n
       ) : null,
       appBar: AppBar(
-        title: const Text('Settings'), // TODO: i18n
+        title: Text(AppLocalizations.of(context)!.viewPrivacy),
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(

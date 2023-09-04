@@ -1,6 +1,7 @@
 import 'package:calculator/logic.dart';
 import 'package:calculator/main.dart';
 import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsView extends StatefulWidget {
@@ -37,10 +38,10 @@ class _SettingsViewState extends State<SettingsView> {
     Scaffold(
       windowBar: WindowBar.shouldShow(context) ? WindowBar(
         leading: Image.asset('assets/imgs/icon.png'),
-        title: const Text('Calculator'), // TODO: i18n
+        title: Text(AppLocalizations.of(context)!.applicationTitle),
       ) : null,
       appBar: AppBar(
-        title: const Text('Settings'), // TODO: i18n
+        title: Text(AppLocalizations.of(context)!.viewSettings),
       ),
       body: ListTileTheme(
         tileColor: Theme.of(context).cardTheme.color
@@ -50,7 +51,7 @@ class _SettingsViewState extends State<SettingsView> {
         child: ListView(
           children: [
             ListTile(
-              title: const Text('Theme'),
+              title: Text(AppLocalizations.of(context)!.settingsTheme),
               onTap: () =>
                 showDialog<ColorScheme>(
                   context: context,
@@ -120,7 +121,7 @@ class _SettingsViewState extends State<SettingsView> {
               ),
             ] : []),
             ListTile(
-              title: Text('Restore default settings'),
+              title: Text(AppLocalizations.of(context)!.settingsRestore),
               onTap: () {
                 preferences.clear();
 
@@ -132,12 +133,12 @@ class _SettingsViewState extends State<SettingsView> {
             ),
             const Divider(),
             ListTile(
-              title: const Text('Privacy Policy'), // TODO: i18n
+              title: Text(AppLocalizations.of(context)!.viewPrivacy),
               onTap: () =>
                 Navigator.pushNamed(context, '/privacy'),
             ),
             ListTile(
-              title: const Text('About'), // TODO: i18n
+              title: Text(AppLocalizations.of(context)!.viewAbout),
               onTap: () =>
                 Navigator.pushNamed(context, '/about'),
             ),

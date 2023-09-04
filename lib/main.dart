@@ -3,6 +3,7 @@ import 'package:calculator/logic.dart';
 import 'package:calculator/views.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:libtokyo_flutter/libtokyo.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -139,6 +140,9 @@ class CalculatorAppState extends State<CalculatorApp> {
         themeMode: colorScheme == ColorScheme.day ? ThemeMode.light : ThemeMode.dark,
         colorScheme: colorScheme,
         colorSchemeDark: colorScheme,
+        onGenerateTitle: (context) => AppLocalizations.of(context)!.applicationTitle,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         routes: {
           '/': (context) => const MainView(),
           '/about': (context) => const AboutView(),

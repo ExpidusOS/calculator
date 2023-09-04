@@ -1,6 +1,7 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:calculator/widgets.dart';
 import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainView extends StatefulWidget {
   const MainView({ super.key });
@@ -17,25 +18,29 @@ class _MainViewState extends State<MainView> {
     Scaffold(
       windowBar: WindowBar.shouldShow(context) ? WindowBar(
         leading: Image.asset('assets/imgs/icon.png'),
-        title: const Text('Calculator'), // TODO: i18n
+        title: Text(AppLocalizations.of(context)!.applicationTitle),
       ) : null,
       appBar: AppBar(
-        title: Text('${type.value.name.substring(0, 1).toUpperCase()}${type.value.name.substring(1)}'), // TODO: i18n
+        title: Text(
+          type.value == CalculatorViewType.standard
+            ? AppLocalizations.of(context)!.modeStandard
+            : AppLocalizations.of(context)!.modeGraphing
+        ),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => <PopupMenuEntry<dynamic>>[
               PopupMenuItem(
                 value: CalculatorViewType.standard,
-                child: const Text('Standard'), // TODO: i18n
+                child: Text(AppLocalizations.of(context)!.modeStandard),
               ),
               PopupMenuItem(
                 value: CalculatorViewType.graphing,
-                child: const Text('Graphing'), // TODO: i18n
+                child: Text(AppLocalizations.of(context)!.modeGraphing),
               ),
               const PopupMenuDivider(),
               PopupMenuItem(
                 value: '/settings',
-                child: const Text('Settings'), // TODO: i18n
+                child: Text(AppLocalizations.of(context)!.viewSettings),
               ),
             ],
             onSelected: (value) =>

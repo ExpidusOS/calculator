@@ -4,6 +4,8 @@
   "modeStandard": "スタンダード",
   "modeGraphing": "グラフ化",
   "settingsTheme": "テーマ",
+  "settingsOptInErrorReportingTitle": "Opt-in to error reporting via Sentry",
+  "settingsOptInErrorReportingSubtitle": "Will take effect after restarting the application",
   "settingsRestore": "初期設定に戻す",
   "viewAbout": "について",
   "viewPrivacy": "プライバシーポリシー",

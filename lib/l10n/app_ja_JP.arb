@@ -1,1 +1,11 @@
-{}
+{
+  "applicationTitleFull": "ExpidusOSのカルキュレータ",
+  "applicationTitle": "カルキュレータ",
+  "modeStandard": "スタンダード",
+  "modeGraphing": "グラフ化",
+  "settingsTheme": "テーマ",
+  "settingsRestore": "初期設定に戻す",
+  "viewAbout": "について",
+  "viewPrivacy": "プライバシーポリシー",
+  "viewSettings": "設定"
+}

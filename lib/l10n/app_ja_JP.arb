@@ -1,11 +1,11 @@
 {
-  "applicationTitleFull": "ExpidusOS Calculator",
-  "applicationTitle": "Calculator",
-  "modeStandard": "Standard",
-  "modeGraphing": "Graphing",
-  "settingsTheme": "Theme",
-  "settingsRestore": "Restore default settings",
-  "viewAbout": "About",
-  "viewPrivacy": "Privacy Policy",
-  "viewSettings": "Settings"
+  "applicationTitleFull": "ExpidusOSのカルキュレータ",
+  "applicationTitle": "カルキュレータ",
+  "modeStandard": "スタンダード",
+  "modeGraphing": "グラフ化",
+  "settingsTheme": "テーマ",
+  "settingsRestore": "初期設定に戻す",
+  "viewAbout": "について",
+  "viewPrivacy": "プライバシーポリシー",
+  "viewSettings": "設定"
 }

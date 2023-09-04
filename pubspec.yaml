@@ -16,6 +16,7 @@ dependencies:
   flutter_adaptive_scaffold: ^0.1.7+1
   flutter_localizations:
     sdk: flutter
+  flutter_markdown: ^0.6.17+2
   libtokyo:
     git:
       url: https://github.com/ExpidusOS/libtokyo.git
@@ -26,6 +27,7 @@ dependencies:
       url: https://github.com/ExpidusOS/libtokyo.git
       ref: eb140908dd2435afdf6208cb84bd37db840b46df
       path: packages/libtokyo_flutter
+  markdown: ^7.1.1
   math_expressions: ^2.4.0
   package_info_plus: ^3.1.2
   provider: ^6.0.5
@@ -33,6 +35,7 @@ dependencies:
   pubspec: ^2.3.0
   sentry_flutter: ^7.9.0
   shared_preferences: ^2.2.1
+  url_launcher: ^6.1.14
 
 dependency_overrides:
   libtokyo:
@@ -53,3 +56,4 @@ flutter:
     - assets/imgs/
     - pubspec.yaml
     - .dart_tool/package_config.json
+    - PRIVACY.md

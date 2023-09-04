@@ -141,6 +141,7 @@ class CalculatorAppState extends State<CalculatorApp> {
         colorSchemeDark: colorScheme,
         routes: {
           '/': (context) => const MainView(),
+          '/privacy': (context) => const PrivacyView(),
           '/settings': (context) => const SettingsView(),
         },
       ),

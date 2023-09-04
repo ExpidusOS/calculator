@@ -9,8 +9,10 @@
       "flutter",
       "flutter_adaptive_scaffold",
       "flutter_localizations",
+      "flutter_markdown",
       "libtokyo",
       "libtokyo_flutter",
+      "markdown",
       "math_expressions",
       "package_info_plus",
       "provider",
@@ -18,6 +20,7 @@
       "pubspec",
       "sentry_flutter",
       "shared_preferences",
+      "url_launcher",
       "flutter_test",
       "flutter_lints"
     ]
@@ -252,6 +255,117 @@
     "dependencies": []
   },
   {
+    "name": "url_launcher",
+    "version": "6.1.14",
+    "kind": "direct",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "url_launcher_android",
+      "url_launcher_ios",
+      "url_launcher_linux",
+      "url_launcher_macos",
+      "url_launcher_platform_interface",
+      "url_launcher_web",
+      "url_launcher_windows"
+    ]
+  },
+  {
+    "name": "url_launcher_windows",
+    "version": "3.0.8",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "url_launcher_platform_interface"
+    ]
+  },
+  {
+    "name": "url_launcher_platform_interface",
+    "version": "2.1.5",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "plugin_platform_interface"
+    ]
+  },
+  {
+    "name": "plugin_platform_interface",
+    "version": "2.1.6",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "meta"
+    ]
+  },
+  {
+    "name": "url_launcher_web",
+    "version": "2.0.19",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "flutter_web_plugins",
+      "url_launcher_platform_interface"
+    ]
+  },
+  {
+    "name": "flutter_web_plugins",
+    "version": "0.0.0",
+    "kind": "transitive",
+    "source": "sdk",
+    "dependencies": [
+      "flutter",
+      "js",
+      "characters",
+      "collection",
+      "material_color_utilities",
+      "meta",
+      "vector_math"
+    ]
+  },
+  {
+    "name": "url_launcher_macos",
+    "version": "3.0.7",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "url_launcher_platform_interface"
+    ]
+  },
+  {
+    "name": "url_launcher_linux",
+    "version": "3.0.6",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "url_launcher_platform_interface"
+    ]
+  },
+  {
+    "name": "url_launcher_ios",
+    "version": "6.1.5",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "url_launcher_platform_interface"
+    ]
+  },
+  {
+    "name": "url_launcher_android",
+    "version": "6.1.0",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "url_launcher_platform_interface"
+    ]
+  },
+  {
     "name": "shared_preferences",
     "version": "2.2.1",
     "kind": "direct",
@@ -288,15 +402,6 @@
     "dependencies": [
       "flutter",
       "plugin_platform_interface"
-    ]
-  },
-  {
-    "name": "plugin_platform_interface",
-    "version": "2.1.6",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "meta"
     ]
   },
   {
@@ -365,21 +470,6 @@
       "flutter",
       "flutter_web_plugins",
       "shared_preferences_platform_interface"
-    ]
-  },
-  {
-    "name": "flutter_web_plugins",
-    "version": "0.0.0",
-    "kind": "transitive",
-    "source": "sdk",
-    "dependencies": [
-      "flutter",
-      "js",
-      "characters",
-      "collection",
-      "material_color_utilities",
-      "meta",
-      "vector_math"
     ]
   },
   {
@@ -623,6 +713,23 @@
     ]
   },
   {
+    "name": "markdown",
+    "version": "7.1.1",
+    "kind": "direct",
+    "source": "hosted",
+    "dependencies": [
+      "args",
+      "meta"
+    ]
+  },
+  {
+    "name": "args",
+    "version": "2.4.2",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": []
+  },
+  {
     "name": "libtokyo_flutter",
     "version": "0.1.0",
     "kind": "direct",
@@ -639,93 +746,6 @@
       "shared_preferences",
       "pubspec",
       "url_launcher"
-    ]
-  },
-  {
-    "name": "url_launcher",
-    "version": "6.1.14",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "url_launcher_android",
-      "url_launcher_ios",
-      "url_launcher_linux",
-      "url_launcher_macos",
-      "url_launcher_platform_interface",
-      "url_launcher_web",
-      "url_launcher_windows"
-    ]
-  },
-  {
-    "name": "url_launcher_windows",
-    "version": "3.0.8",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "url_launcher_platform_interface"
-    ]
-  },
-  {
-    "name": "url_launcher_platform_interface",
-    "version": "2.1.5",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "plugin_platform_interface"
-    ]
-  },
-  {
-    "name": "url_launcher_web",
-    "version": "2.0.19",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "flutter_web_plugins",
-      "url_launcher_platform_interface"
-    ]
-  },
-  {
-    "name": "url_launcher_macos",
-    "version": "3.0.7",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "url_launcher_platform_interface"
-    ]
-  },
-  {
-    "name": "url_launcher_linux",
-    "version": "3.0.6",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "url_launcher_platform_interface"
-    ]
-  },
-  {
-    "name": "url_launcher_ios",
-    "version": "6.1.5",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "url_launcher_platform_interface"
-    ]
-  },
-  {
-    "name": "url_launcher_android",
-    "version": "6.1.0",
-    "kind": "transitive",
-    "source": "hosted",
-    "dependencies": [
-      "flutter",
-      "url_launcher_platform_interface"
     ]
   },
   {
@@ -841,6 +861,18 @@
     "dependencies": [
       "flutter",
       "material_color_utilities"
+    ]
+  },
+  {
+    "name": "flutter_markdown",
+    "version": "0.6.17+2",
+    "kind": "direct",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "markdown",
+      "meta",
+      "path"
     ]
   },
   {

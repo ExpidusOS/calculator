@@ -1,0 +1,234 @@
+name: Flutter
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - '*'
+      - '!l10n_master'
+  pull_request: {}
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    strategy:
+      matrix:
+        arch: [x64]
+        channel: [master]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          channel: ${{ matrix.channel }}
+          architecture: ${{ matrix.arch }}
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - run: flutter doctor
+      - name: Download dependencies
+        run: flutter pub get
+      - if: ${{ !github.event.issue.pull_request }}
+        name: Set up signing
+        env:
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ENCODED_STRING: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+        run: |
+          echo "$ENCODED_STRING" | base64 -di >upload-keystore.jks
+          echo "storePassword=$ANDROID_STORE_PASSWORD" >android/key.properties
+          echo "keyPassword=$ANDROID_KEY_PASSWORD" >>android/key.properties
+          echo "keyAlias=upload" >>android/key.properties
+          echo "storeFile=$(readlink -e .)/upload-keystore.jks" >>android/key.properties
+      - name: Extract version
+        run: |
+          export VERSION=$(grep "version: " pubspec.yaml | cut -f2 -d ' ' | cut -f1 -d '+')
+          echo "VERSION=$VERSION" >>$GITHUB_ENV
+      - if: ${{ github.event.issue.pull_request }}
+        name: Set env vars for pull request
+        run: |
+          echo "RELEASE_FILE=build/app/outputs/bundle/profile/app-profile.aab" >> $GITHUB_ENV
+          echo "RELEASE_FILE_APK=build/app/outputs/flutter-apk/app-profile.apk" >> $GITHUB_ENV
+          echo "RELEASE_NAME=v$VERSION-${{ github.sha }}" >> $GITHUB_ENV
+      - if: ${{ !github.event.issue.pull_request && !startsWith(github.ref, 'refs/tags/') }}
+        name: Set env vars for staging
+        run: |
+          if [[ "${{ github.ref_name }}" == "master" ]]; then
+            echo "TRACK=beta" >> $GITHUB_ENV
+          else
+            echo "TRACK=internal" >> $GITHUB_ENV
+          fi
+          
+          echo "RELEASE_FILE=build/app/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
+          echo "RELEASE_FILE_APK=build/app/outputs/flutter-apk/app-release.apk" >> $GITHUB_ENV
+          echo "RELEASE_NAME=v$VERSION-${{ github.sha }}" >> $GITHUB_ENV
+      - if: ${{ !github.event.issue.pull_request && startsWith(github.ref, 'refs/tags/') }}
+        name: Set env vars for release
+        run: |
+          echo "TRACK=production" >> $GITHUB_ENV
+          echo "RELEASE_FILE=build/app/outputs/bundle/release/app-release.aab" >> $GITHUB_ENV
+          echo "RELEASE_FILE_APK=build/app/outputs/flutter-apk/app-release.apk" >> $GITHUB_ENV
+          echo "RELEASE_NAME=v${{ github.ref_name }}" >> $GITHUB_ENV
+      - if: ${{ !github.event.issue.pull_request }}
+        name: Build for Android (release)
+        run: |
+          flutter build appbundle --release --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          flutter build apk --release --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+      - if: ${{ github.event.issue.pull_request }}
+        name: Build for Android (profile)
+        run: |
+          flutter build appbundle --profile --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          flutter build apk --profile --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: com.expidusos.calculator.apk
+          path: |
+            ${{ env.RELEASE_FILE_APK }}
+      - if: ${{ !github.event.issue.pull_request }}
+        name: Deploy to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT }}
+          packageName: com.expidusos.calculator
+          releaseFiles: ${{ env.RELEASE_FILE }}
+          track: ${{ env.TRACK }}
+          releaseName: ${{ env.RELEASE_NAME }}
+      - if: startsWith(github.ref, 'refs/tags/')
+        name: Rename files for release
+        run: |
+          mv ${{ env.RELEASE_FILE }} com.expidusos.calculator.aab
+          mv ${{ env.RELEASE_FILE_APK }} com.expidusos.calculator.apk
+      - if: startsWith(github.ref, 'refs/tags/')
+        name: Release
+        uses: meeDamian/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: com.expidusos.calculator.apk
+          allow_override: true
+  linux:
+    strategy:
+      matrix:
+        arch: [x64]
+        channel: [master]
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v3
+      - name: Add dependencies
+        run: |
+          dnf update -y
+          dnf install -y jq cmake ninja-build gtk3-devel clang
+          dnf clean all
+      - uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          channel: ${{ matrix.channel }}
+          architecture: ${{ matrix.arch }}
+      - if: ${{ !github.event.issue.pull_request }}
+        name: Set up GPG key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.FLATPAK_GPG_KEY }}
+          passphrase: ${{ secrets.FLATPAK_GPG_PASSPHRASE }}
+      - name: Build Flutter
+        run: |
+          git config --global --add safe.directory /opt/hostedtoolcache/flutter/${{ matrix.channel }}-3.10.2-${{ matrix.arch }}
+          flutter config --enable-linux-desktop
+          flutter build linux --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          tar -czf com.expidusos.calculator-linux-${{ matrix.arch }}.tar.gz -C build/linux/${{ matrix.arch }}/release/bundle/ .
+      - if: ${{ !github.event.issue.pull_request }}
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6.1
+        name: Bundle Flatpak
+        with:
+          bundle: com.expidusos.calculator.flatpak
+          manifest-path: data/com.expidusos.calculator.yml
+          cache-key: flatpak-builder-${{ github.sha }}
+          gpg-sign: F1AE8F34E36642E92E7777B591654E1B742E4226
+      - if: ${{ github.event.issue.pull_request }}
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6.1
+        name: Bundle Flatpak
+        with:
+          bundle: com.expidusos.calculator.flatpak
+          manifest-path: data/com.expidusos.calculator.yml
+          cache-key: flatpak-builder-${{ github.sha }}
+      - name: Upload build
+        uses: actions/upload-artifact@v3
+        with:
+          name: com.expidusos.calculator-linux-${{ matrix.arch }}
+          path: build/linux/${{ matrix.arch }}/release/bundle/
+      - if: startsWith(github.ref, 'refs/tags/')
+        name: Release
+        uses: meeDamian/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allow_override: true
+          files: >
+            com.expidusos.calculator.flatpak
+            com.expidusos.calculator-linux-${{ matrix.arch }}.tar.gz
+  macos:
+    strategy:
+      matrix:
+        arch: [x64]
+        channel: [master]
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          channel: ${{ matrix.channel }}
+          architecture: ${{ matrix.arch }}
+      - run: flutter doctor
+      - name: Download dependencies
+        run: flutter pub get
+      - name: Build desktop
+        run: |
+          flutter config --enable-macos-desktop
+          flutter build macos --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          find build
+  windows:
+    strategy:
+      matrix:
+        arch: [x64]
+        channel: [master]
+    runs-on: windows-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          channel: ${{ matrix.channel }}
+          architecture: ${{ matrix.arch }}
+      - run: flutter doctor
+      - name: Download dependencies
+        run: flutter pub get
+      - name: Build desktop
+        run: |
+          flutter config --enable-windows-desktop
+          flutter build windows --release --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+
+          pushd build/windows/x64/runner/Release
+          7z a ../../../../com.expidusos.calculator-windows-${{ matrix.arch }}.zip . -r
+          popd
+      - name: Upload Windows
+        uses: actions/upload-artifact@v3
+        with:
+          name: com.expidusos.calculator-windows-${{ matrix.arch }}.zip
+          path: build/windows/x64/runner/Release
+      - if: startsWith(github.ref, 'refs/tags/')
+        name: Release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: com.expidusos.calculator-windows-${{ matrix.arch }}.zip

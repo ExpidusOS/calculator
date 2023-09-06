@@ -1,0 +1,24 @@
+app-id: com.expidusos.calculator
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+separate-locales: false
+command: calculator
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --share=network
+modules:
+  - name: FileManager
+    buildsystem: simple
+    build-commands:
+      - mv build/linux/x64/release/bundle/ /app/expidus_calculator
+      - mkdir -p /app/bin && ln -s /app/expidus_calculator/calculator /app/bin/calculator
+      - install -D data/com.expidusos.calculator.desktop /app/share/applications/com.expidusos.calculator.desktop
+      - install -D data/com.expidusos.calculator.metainfo.xml /app/share/metainfo/com.expidusos.calculator.metainfo.xml
+      - install -D assets/imgs/icon.png /app/share/icons/hicolor/256x256/apps/com.expidusos.calculator.png
+    sources:
+      - type: dir
+        path: ..

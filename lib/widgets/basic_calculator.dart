@@ -17,12 +17,11 @@ class BasicCalculator extends StatefulWidget {
 }
 
 class _BasicCalculator extends State<BasicCalculator> {
-  CalculatorMachine machine = CalculatorMachine();
-  CalculatorInstructionBuilder builder = CalculatorInstructionBuilder();
+  final builder = MathExpressionsBuilder();
 
   void _update() {
     if (widget.onChanged != null) {
-      widget.onChanged!(machine.toString());
+      widget.onChanged!(builder.toString());
     }
   }
 
@@ -30,7 +29,13 @@ class _BasicCalculator extends State<BasicCalculator> {
   Widget build(BuildContext context) =>
     Column(
       children: [
-        CalculatorBox(value: builder.toString().isEmpty ? machine.toString() : builder.toString()),
+        CalculatorBox(
+          value: builder.toString(),
+          onChanged: (value) =>
+            setState(() {
+              builder.expressionString = value;
+            }),
+        ),
         GridView(
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -46,8 +51,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sqrt));
-                _update();
+                if (builder.shouldAddNumber) {
+                  builder.push('sqrt(');
+                  _update();
+                }
               },
             ),
             CalculatorButton(
@@ -58,7 +65,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.special(CalculatorInstructionBuilderEntryKind.pi));
+                builder.push('𐍀');
                 _update();
               },
             ),
@@ -70,8 +77,10 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.pow));
-                _update();
+                if (!builder.shouldAddNumber) {
+                  builder.push('^');
+                  _update();
+                }
               },
             ),
             CalculatorButton(
@@ -82,7 +91,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.not));
+                builder.push('!');
                 _update();
               },
             ),
@@ -95,7 +104,6 @@ class _BasicCalculator extends State<BasicCalculator> {
               ),
               onPressed: () {
                 builder.clear();
-                machine.reset();
                 _update();
               },
             ),
@@ -107,7 +115,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(CalculatorInstructionBuilderEntry.special(builder.canCloseParens ? CalculatorInstructionBuilderEntryKind.closedParens : CalculatorInstructionBuilderEntryKind.openParens));
+                builder.push(builder.canCloseParentheses ? ')' : '(');
                 _update();
               },
             ),
@@ -119,7 +127,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mod));
+                builder.push('%');
                 _update();
               },
             ),
@@ -131,7 +139,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.div));
+                builder.push('+');
                 _update();
               },
             ),
@@ -143,7 +151,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(7));
+                builder.push('7');
                 _update();
               }
             ),
@@ -155,7 +163,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(8));
+                builder.push('8');
                 _update();
               }
             ),
@@ -167,7 +175,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(9));
+                builder.push('9');
                 _update();
               }
             ),
@@ -179,7 +187,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.mul));
+                builder.push('*');
                 _update();
               },
             ),
@@ -191,7 +199,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(4));
+                builder.push('4');
                 _update();
               }
             ),
@@ -203,7 +211,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(5));
+                builder.push('5');
                 _update();
               }
             ),
@@ -215,7 +223,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(6));
+                builder.push('6');
                 _update();
               }
             ),
@@ -227,7 +235,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.sub));
+                builder.push('-');
                 _update();
               },
             ),
@@ -239,7 +247,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(1));
+                builder.push('1');
                 _update();
               }
             ),
@@ -251,7 +259,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(2));
+                builder.push('2');
                 _update();
               }
             ),
@@ -263,7 +271,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(3));
+                builder.push('3');
                 _update();
               }
             ),
@@ -275,7 +283,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.opcode(CalculatorOpcode.add));
+                builder.push('+');
                 _update();
               },
             ),
@@ -287,7 +295,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.value(0));
+                builder.push('0');
                 _update();
               }
             ),
@@ -299,7 +307,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.add(const CalculatorInstructionBuilderEntry.special(CalculatorInstructionBuilderEntryKind.decimal));
+                builder.push('.');
                 _update();
               },
             ),
@@ -329,10 +337,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.commit(machine);
-                builder.clear();
-                machine.exec();
-                builder.add(CalculatorInstructionBuilderEntry.value(machine.result));
+                builder.execute();
                 _update();
               },
             ),

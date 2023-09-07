@@ -1,0 +1,32 @@
+app-id: com.expidusos.calculator
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+separate-locales: false
+command: calculator
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --share=network
+modules:
+  - name: FileManager
+    buildsystem: simple
+    build-commands:
+      - cp -R bundle /app/expidus_calculator
+      - mkdir -p /app/bin && ln -s /app/expidus_calculator/calculator /app/bin/calculator
+      - chmod +x /app/bin/calculator
+      - install -D bundle/data/com.expidusos.calculator.desktop /app/share/applications/com.expidusos.calculator.desktop
+      - install -D com.expidusos.calculator.metainfo.xml /app/share/metainfo/com.expidusos.calculator.metainfo.xml
+      - install -D bundle/data/com.expidusos.calculator.png /app/share/icons/hicolor/256x256/apps/com.expidusos.calculator.png
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://github.com/ExpidusOS/file-manager/releases/download/@VERSION@/com.expidusos.calculator-linux-x64.zip
+        sha256: @SHA256@
+        dest: bundle
+      - type: file
+        url: https://raw.githubusercontent.com/ExpidusOS/file-manager/@METAINFO_COMMIT@/data/com.expidusos.calculator.metainfo.xml
+        sha256: @METAINFO_SHA256@

@@ -42,8 +42,8 @@
 
       <artifacts>
         <artifact type="binary" platform="x86_64-linux-gnu">
-          <location>https://github.com/ExpidusOS/calculator/releases/download/0.1.0-alpha/com.expidusos.calculator-linux-x64.tgz</location>
-          <checksum type="sha256">fd55821867fa30d1752071cf7d421ecdf3288fdc0872970cfa5747ced6cb4cf2</checksum>
+          <location>https://github.com/ExpidusOS/calculator/releases/download/0.1.0-alpha/com.expidusos.calculator-linux-x64.tar.gz</location>
+          <checksum type="sha256">52f7457f8e4bf3842adb8ff2d6a1edbcd016941e511ffb9eebe837c15ac6d9d3</checksum>
         </artifact>
         <artifact type="binary" platform="x86_64-linux-gnu">
           <location>https://github.com/ExpidusOS/calculator/releases/download/0.1.0-alpha/com.expidusos.calculator.flatpak.tgz</location>

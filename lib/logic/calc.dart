@@ -164,7 +164,7 @@ class CalculatorInstructionBuilderEntry {
   final bool hasDecimal;
   final CalculatorOpcode? opcode;
 
-  bool get isWhole => constantValue.remainder(constantValue.toInt()) == 0;
+  bool get isWhole => constantValue.isFinite && !constantValue.isNaN ? constantValue.remainder(constantValue.toInt()) == 0 : false;
   int get decimalPlaces => isWhole && hasDecimal ? 0 : constantValue.toString().split('.')[1].length;
 
   @override

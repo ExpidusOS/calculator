@@ -90,12 +90,12 @@ jobs:
         name: Add release notes
         run: |
           mkdir -p dist/whatsnew
-          git log ${{ github.ref_name }} --pretty="%B" | egrep "(fix|feat)" | egrep -v '\((ci|android|linux|macos|ios|web)\)' | uniq > dist/whatsnew/whatsnew-en-US
+          ./scripts/gen-release-notes.sh ${{ github.ref_name }} %B > dist/whatsnew/whatsnew-en-US
       - if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         name: Add release notes
         run: |
           mkdir -p dist/whatsnew
-          git log ${{ github.event.before }}..${{ github.event.after }} --pretty="%S: %B" > dist/whatsnew/whatsnew-en-US
+          ./scripts/gen-release-notes.sh ${{ github.event.before }}..${{ github.event.after }} "%S: %B" > dist/whatsnew/whatsnew-en-US
       - name: Upload Android APK
         uses: actions/upload-artifact@v3
         with:
@@ -163,7 +163,7 @@ jobs:
           Date: $(date +'%Y-%m-%d')
           Description: |-
           EOF
-          git log ${{ github.ref_name }} --pretty="  %s" >> NEWS.new
+          ./scripts/gen-release-notes.sh ${{ github.ref_name }} "  %s" >> NEWS.new
           cat NEWS.new NEWS.orig > NEWS
           rm NEWS.orig NEWS.new
           cat NEWS

@@ -157,18 +157,7 @@ jobs:
         name: Add release notes
         run: |
           git config --global --add safe.directory '*'
-          appstreamcli metainfo-to-news data/com.expidusos.calculator.metainfo.xml NEWS.orig
-          cat << EOF > NEWS.new
-          Version: ${{ github.ref_name }}
-          Date: $(date +'%Y-%m-%d')
-          Description: |-
-          EOF
-          ./scripts/gen-release-notes.sh ${{ github.ref_name }} "  %s" >> NEWS.new
-          cat NEWS.new NEWS.orig > NEWS
-          rm NEWS.orig NEWS.new
-          cat NEWS
-          appstreamcli news-to-metainfo NEWS data/com.expidusos.calculator.metainfo.xml
-          rm NEWS
+          ./scripts/gen-metainfo-release.sh ${{ github.ref_name }}
       - if: startsWith(github.ref, 'refs/tags/')
         name: Push release notes
         uses: stefanzweifel/git-auto-commit-action@v4

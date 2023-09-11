@@ -44,6 +44,25 @@
       </description>
 
       <url>https://github.com/ExpidusOS/calculator/releases/tag/0.1.1-alpha</url>
+
+      <artifacts>
+        <artifact type="binary" platform="x86_64-linux-gnu">
+          <location>https://github.com/ExpidusOS/calculator/releases/download/0.1.1-alpha/com.expidusos.calculator-linux-x64.tar.gz</location>
+          <checksum type="sha256">45197b602cdb0073e5190dadcf6c6f6b0232886c144091d2fdcfc1c792af1349</checksum>
+        </artifact>
+        <artifact type="binary" platform="x86_64-linux-gnu">
+          <location>https://github.com/ExpidusOS/calculator/releases/download/0.1.1-alpha/com.expidusos.calculator.flatpak</location>
+          <checksum type="sha256">aebe3918611484931dcbfa428ac816adddbab4a862e27ed00bf5ca13b9e8b415</checksum>
+        </artifact>
+        <artifact type="binary" platform="x86_64-windows-msvc">
+          <location>https://github.com/ExpidusOS/calculator/releases/download/0.1.1-alpha/com.expidusos.calculator-windows-x64.zip</location>
+          <checksum type="sha256">1da353eab88e95751c1c5645d9522816241d37611f0562fc6a0cd1b677d14289</checksum>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/ExpidusOS/calculator/archive/refs/tags/0.1.1-alpha.tar.gz</location>
+          <checksum type="sha256">76da1da39e839f144d5f3f93359f11df772e39cc87fc6cc30399bcf9c32e23c2</checksum>
+        </artifact>
+      </artifacts>
     </release>
     <release version="0.1.0-alpha" date="2023-09-06">
       <description>

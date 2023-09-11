@@ -43,14 +43,14 @@
         </ul>
       </description>
 
-      <url>https://github.com/ExpidusOS/file-manager/releases/tag/0.1.1-alpha</url>
+      <url>https://github.com/ExpidusOS/calculator/releases/tag/0.1.1-alpha</url>
     </release>
     <release version="0.1.0-alpha" date="2023-09-06">
       <description>
         <p>First release.</p>
       </description>
 
-      <url>https://github.com/ExpidusOS/file-manager/releases/tag/0.1.0-alpha</url>
+      <url>https://github.com/ExpidusOS/calculator/releases/tag/0.1.0-alpha</url>
 
       <artifacts>
         <artifact type="binary" platform="x86_64-linux-gnu">

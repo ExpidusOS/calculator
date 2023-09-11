@@ -80,7 +80,7 @@ jobs:
           flutter build appbundle --release --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           flutter build apk --release --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           mkdir -p dist/whatsnew
-          git log ${{ github.event.before }}..${{ github.event.after }} --pretty="%S: %B" > dist/whatsnew/whatsnew-en-US
+          git log ${{ github.event.before }}..HEAD --pretty="%S: %B" > dist/whatsnew/whatsnew-en-US
       - if: ${{ github.event.issue.pull_request }}
         name: Build for Android (profile)
         run: |

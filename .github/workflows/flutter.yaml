@@ -153,17 +153,6 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.FLATPAK_GPG_KEY }}
           passphrase: ${{ secrets.FLATPAK_GPG_PASSPHRASE }}
-      - if: startsWith(github.ref, 'refs/tags/')
-        name: Add release notes
-        run: |
-          git config --global --add safe.directory '*'
-          ./scripts/gen-metainfo-release.sh ${{ github.ref_name }}
-      - if: startsWith(github.ref, 'refs/tags/')
-        name: Push release notes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "chore(linux): generate release notes"
-          file_pattern: data/com.expidusos.calculator.metainfo.xml
       - name: Build Flutter
         run: |
           git config --global --add safe.directory /opt/hostedtoolcache/flutter/${{ matrix.channel }}-3.10.2-${{ matrix.arch }}
@@ -243,7 +232,7 @@ jobs:
           flutter build windows --release --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
 
           pushd build/windows/x64/runner/Release
-          7z a ../../../../com.expidusos.calculator-windows-${{ matrix.arch }}.zip . -r
+          7z a ../../../../../com.expidusos.calculator-windows-${{ matrix.arch }}.zip . -r
           popd
       - name: Upload Windows
         uses: actions/upload-artifact@v3

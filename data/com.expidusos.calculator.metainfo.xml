@@ -34,6 +34,17 @@
   </categories>
 
   <releases>
+    <release version="0.1.1-alpha" date="2023-09-10">
+      <description>
+        <ul>
+          <li>Fix text readability issue</li>
+          <li>Use math_expressions with the standard calculator</li>
+          <li>Standard calculator now accepts using a physical keyboard</li>
+        </ul>
+      </description>
+
+      <url>https://github.com/ExpidusOS/file-manager/releases/tag/0.1.1-alpha</url>
+    </release>
     <release version="0.1.0-alpha" date="2023-09-06">
       <description>
         <p>First release.</p>

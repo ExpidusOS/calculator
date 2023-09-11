@@ -1,7 +1,7 @@
 name: calculator
 description: A simple calculator application for ExpidusOS
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.1.1+1
 homepage: https://expidusos.com
 funding:
   - https://opencollective.com/expidusos

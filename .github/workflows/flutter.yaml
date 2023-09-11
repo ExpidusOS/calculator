@@ -127,6 +127,8 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Add dependencies
         run: |
           dnf update -y
@@ -146,6 +148,7 @@ jobs:
       - if: startsWith(github.ref, 'refs/tags/')
         name: Add release notes
         run: |
+          git config --global --add safe.directory '*'
           appstreamcli metainfo-to-news data/com.expidusos.calculator.metainfo.xml NEWS.orig
           cat << EOF > NEWS.new
           Version ${GITHUB_REF##*/}

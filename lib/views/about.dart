@@ -10,7 +10,7 @@ class AboutView extends StatelessWidget {
   Widget build(BuildContext context) =>
     Scaffold(
       windowBar: WindowBar.shouldShow(context) ? WindowBar(
-        leading: Image.asset('assets/imgs/icon.png'),
+        leading: Image.asset('assets/imgs/icon.webp'),
         title: Text(AppLocalizations.of(context)!.applicationTitle),
       ) : null,
       appBar: AppBar(

@@ -53,7 +53,7 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/imgs/icon.png
+    - assets/imgs/icon.webp
     - pubspec.yaml
     - .dart_tool/package_config.json
     - PRIVACY.md

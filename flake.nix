@@ -40,7 +40,7 @@
           ];
 
           depsListFile = ./deps.json;
-          vendorHash = "sha256-hXcpXDmJF0mn3aOLaleFujiPKDCI+FXL9vdbw8poPoc=";
+          vendorHash = "sha256-DkVSl2D5/W4e/r6o0QzwW5iwWYfKaMS/h6ADquBM6R8=";
 
           postInstall = ''
             rm $out/bin/calculator

@@ -139,7 +139,7 @@ class _BasicCalculator extends State<BasicCalculator> {
                 ),
               ),
               onPressed: () {
-                builder.push('+');
+                builder.push('/');
                 _update();
               },
             ),

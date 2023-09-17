@@ -747,7 +747,64 @@
       "bitsdojo_window",
       "shared_preferences",
       "pubspec",
-      "url_launcher"
+      "url_launcher",
+      "google_fonts",
+      "font_awesome_flutter"
+    ]
+  },
+  {
+    "name": "font_awesome_flutter",
+    "version": "10.5.0",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter"
+    ]
+  },
+  {
+    "name": "google_fonts",
+    "version": "5.1.0",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "http",
+      "path_provider",
+      "crypto"
+    ]
+  },
+  {
+    "name": "path_provider",
+    "version": "2.1.1",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "path_provider_android",
+      "path_provider_foundation",
+      "path_provider_linux",
+      "path_provider_platform_interface",
+      "path_provider_windows"
+    ]
+  },
+  {
+    "name": "path_provider_foundation",
+    "version": "2.3.1",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "path_provider_platform_interface"
+    ]
+  },
+  {
+    "name": "path_provider_android",
+    "version": "2.2.0",
+    "kind": "transitive",
+    "source": "hosted",
+    "dependencies": [
+      "flutter",
+      "path_provider_platform_interface"
     ]
   },
   {

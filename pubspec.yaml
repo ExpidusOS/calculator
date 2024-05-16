@@ -7,7 +7,7 @@ funding:
   - https://opencollective.com/expidusos
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   bitsdojo_window: ^0.1.5
@@ -20,12 +20,12 @@ dependencies:
   libtokyo:
     git:
       url: https://github.com/ExpidusOS/libtokyo.git
-      ref: bc5d988f32b67a9f91ff34248f69c45cfb4efcca
+      ref: 86e7e0be63f142fdb8d349bb05e34558b2b58646
       path: packages/libtokyo
   libtokyo_flutter:
     git:
       url: https://github.com/ExpidusOS/libtokyo.git
-      ref: bc5d988f32b67a9f91ff34248f69c45cfb4efcca
+      ref: 86e7e0be63f142fdb8d349bb05e34558b2b58646
       path: packages/libtokyo_flutter
   markdown: ^7.1.1
   math_expressions: ^2.4.0
@@ -38,11 +38,13 @@ dependencies:
   url_launcher: ^6.1.14
 
 dependency_overrides:
+  meta: ^1.14.0
+  intl: ^0.19.0
   win32: ^5.0.5
   libtokyo:
     git:
       url: https://github.com/ExpidusOS/libtokyo.git
-      ref: bc5d988f32b67a9f91ff34248f69c45cfb4efcca
+      ref: 86e7e0be63f142fdb8d349bb05e34558b2b58646
       path: packages/libtokyo
 
 dev_dependencies:

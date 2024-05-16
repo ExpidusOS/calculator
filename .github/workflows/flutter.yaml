@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         arch: [x64]
-        channel: [master]
+        channel: [stable]
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -127,7 +127,7 @@ jobs:
     strategy:
       matrix:
         arch: [x64]
-        channel: [master]
+        channel: [stable]
     continue-on-error: true
     runs-on: ubuntu-latest
     container:
@@ -140,7 +140,7 @@ jobs:
       - name: Add dependencies
         run: |
           dnf update -y
-          dnf install -y jq cmake ninja-build gtk3-devel clang appstream
+          dnf install -y jq cmake ninja-build gtk3-devel clang appstream which
           dnf clean all
       - uses: subosito/flutter-action@v2
         with:
@@ -155,7 +155,7 @@ jobs:
           passphrase: ${{ secrets.FLATPAK_GPG_PASSPHRASE }}
       - name: Build Flutter
         run: |
-          git config --global --add safe.directory /opt/hostedtoolcache/flutter/${{ matrix.channel }}-3.10.2-${{ matrix.arch }}
+          git config --global --add safe.directory /__t/flutter/${{ matrix.channel }}-3.22.0-${{ matrix.arch }}
           flutter config --enable-linux-desktop
           flutter build linux --build-number $GITHUB_RUN_NUMBER --dart-define=COMMIT_HASH=$GITHUB_SHA --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           tar -czf com.expidusos.calculator-linux-${{ matrix.arch }}.tar.gz -C build/linux/${{ matrix.arch }}/release/bundle/ .
@@ -191,7 +191,7 @@ jobs:
     strategy:
       matrix:
         arch: [x64]
-        channel: [master]
+        channel: [stable]
     runs-on: macos-latest
     continue-on-error: true
     steps:
@@ -213,7 +213,7 @@ jobs:
     strategy:
       matrix:
         arch: [x64]
-        channel: [master]
+        channel: [stable]
     runs-on: windows-latest
     continue-on-error: true
     steps:

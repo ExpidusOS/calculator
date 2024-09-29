@@ -1,14 +1,13 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:calculator/logic.dart';
 import 'package:calculator/views.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:expidus/expidus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:pubspec/pubspec.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,41 +15,38 @@ final kCommitHash = (const String.fromEnvironment('COMMIT_HASH', defaultValue: '
 
 Future<void> _runMain({
   required bool isSentry,
-  required PubSpec pubspec,
+  required Pubspec pubspec,
 }) async {
   final app = CalculatorApp(
     isSentry: isSentry,
     pubspec: pubspec,
   );
+
   runApp(isSentry ? DefaultAssetBundle(bundle: SentryAssetBundle(), child: app) : app);
-
-  if (!kIsWeb) {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.windows:
-      case TargetPlatform.macOS:
-      case TargetPlatform.linux:
-        doWhenWindowReady(() {
-          final win = appWindow;
-          const initialSize = Size(600, 450);
-
-          win.minSize = initialSize;
-          win.size = initialSize;
-          win.alignment = Alignment.center;
-          win.show();
-        });
-        break;
-      default:
-        break;
-    }
-  }
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final pinfo = await PackageInfo.fromPlatform();
 
-  final pubspec = PubSpec.fromYamlString(await rootBundle.loadString('pubspec.yaml')).copy(
+  final pubspecOrig = Pubspec.parse(await rootBundle.loadString('pubspec.yaml'));
+  final pubspec = Pubspec(pubspecOrig.name,
     version: Version.parse("${pinfo.version}+$kCommitHash"),
+    publishTo: pubspecOrig.publishTo,
+    environment: pubspecOrig.environment,
+    homepage: pubspecOrig.homepage,
+    repository: pubspecOrig.repository,
+    issueTracker: pubspecOrig.issueTracker,
+    funding: pubspecOrig.funding,
+    topics: pubspecOrig.topics,
+    ignoredAdvisories: pubspecOrig.ignoredAdvisories,
+    screenshots: pubspecOrig.screenshots,
+    documentation: pubspecOrig.documentation,
+    description: pubspecOrig.description,
+    dependencies: pubspecOrig.dependencies,
+    devDependencies: pubspecOrig.devDependencies,
+    dependencyOverrides: pubspecOrig.dependencyOverrides,
+    flutter: pubspecOrig.flutter,
   );
 
   const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
@@ -95,19 +91,18 @@ class CalculatorApp extends StatefulWidget {
   });
 
   final bool isSentry;
-  final PubSpec pubspec;
+  final Pubspec pubspec;
 
   @override
   State<CalculatorApp> createState() => CalculatorAppState();
 
   static bool isSentryOnContext(BuildContext context) => context.findAncestorWidgetOfExactType<CalculatorApp>()!.isSentry;
-  static PubSpec getPubSpec(BuildContext context) => context.findAncestorWidgetOfExactType<CalculatorApp>()!.pubspec;
+  static Pubspec getPubspec(BuildContext context) => context.findAncestorWidgetOfExactType<CalculatorApp>()!.pubspec;
   static Future<void> reload(BuildContext context) => context.findAncestorStateOfType<CalculatorAppState>()!.reload();
 }
 
 class CalculatorAppState extends State<CalculatorApp> {
   late SharedPreferences preferences;
-  ColorScheme? colorScheme;
 
   @override
   void initState() {
@@ -126,9 +121,7 @@ class CalculatorAppState extends State<CalculatorApp> {
     setState(() => _loadSettings());
   }
 
-  void _loadSettings() {
-    colorScheme = ColorScheme.values.asNameMap()[preferences.getString(CalculatorSettings.colorScheme.name) ?? 'night'];
-  }
+  void _loadSettings() {}
 
   @override
   Widget build(BuildContext context) =>
@@ -136,11 +129,8 @@ class CalculatorAppState extends State<CalculatorApp> {
       providers: [
         Provider(create: (context) => preferences),
       ],
-      child: TokyoApp(
+      child: ExpidusApp(
         title: 'Calculator',
-        themeMode: colorScheme == ColorScheme.day ? ThemeMode.light : ThemeMode.dark,
-        colorScheme: colorScheme,
-        colorSchemeDark: colorScheme,
         onGenerateTitle: (context) => AppLocalizations.of(context)!.applicationTitle,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -148,7 +138,7 @@ class CalculatorAppState extends State<CalculatorApp> {
           SentryNavigatorObserver(
             setRouteNameAsTransaction: true,
           ),
-        ] : null,
+        ] : [],
         routes: {
           '/': (context) => const MainView(),
           '/about': (context) => const AboutView(),

@@ -1,5 +1,5 @@
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:expidus/expidus.dart';
 import 'basic_calculator.dart';
 import 'graphing_calculator.dart';
 

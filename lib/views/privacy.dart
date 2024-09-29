@@ -1,5 +1,5 @@
 import 'package:calculator/logic.dart';
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:expidus/expidus.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -20,14 +20,8 @@ class PrivacyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-    Scaffold(
-      windowBar: WindowBar.shouldShow(context) ? WindowBar(
-        leading: Image.asset('assets/imgs/icon.webp'),
-        title: Text(AppLocalizations.of(context)!.applicationTitle), // TODO: i18n
-      ) : null,
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.viewPrivacy),
-      ),
+    ExpidusScaffold(
+      title: AppLocalizations.of(context)!.viewPrivacy,
       body: SingleChildScrollView(
         child: FutureBuilder(
           future: rootBundle.loadString('PRIVACY.md'),

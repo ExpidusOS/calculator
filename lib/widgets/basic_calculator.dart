@@ -1,6 +1,6 @@
 import 'package:calculator/logic.dart';
-import 'package:flutter/material.dart' show Color;
-import 'package:libtokyo_flutter/libtokyo.dart' hide Color;
+import 'package:expidus/expidus.dart';
+import 'package:flutter/material.dart' show ButtonStyle, Icons, MaterialStatePropertyAll;
 import 'calculator_box.dart';
 import 'calculator_button.dart';
 

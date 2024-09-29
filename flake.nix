@@ -1,46 +1,42 @@
 {
   description = "ExpidusOS Calculator";
 
-  nixConfig = rec {
-    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
-    substituters = [ "https://cache.nixos.org" "https://cache.garnix.io" ];
-    trusted-substituters = substituters;
-    fallback = true;
-    http2 = false;
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    systems.url = "github:nix-systems/default-linux";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  inputs.expidus-sdk = {
-    url = github:ExpidusOS/sdk;
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
-  inputs.nixpkgs.url = github:ExpidusOS/nixpkgs;
-
-  outputs = { self, expidus-sdk, nixpkgs }:
-    with expidus-sdk.lib;
-    flake-utils.eachSystem flake-utils.allSystems (system:
+  outputs = { self, nixpkgs, systems, flake-utils }:
+    let
+      inherit (nixpkgs) lib;
+    in
+    flake-utils.lib.eachSystem (import systems) (system:
       let
-        pkgs = expidus-sdk.legacyPackages.${system};
-        deps = builtins.fromJSON (readFile ./deps.json);
-        shortRev = self.shortRev or (substring 7 7 fakeHash);
-        shortRevCodes = map strings.charToInt (stringToCharacters shortRev);
-        buildCode = foldr (a: b: "${toString a}${toString b}") "" shortRevCodes;
+        pkgs = nixpkgs.legacyPackages.${system};
+        deps = builtins.fromJSON (lib.readFile ./deps.json);
+        shortRev = self.shortRev or (lib.substring 7 7 lib.fakeHash);
+        shortRevCodes = lib.map lib.strings.charToInt (lib.stringToCharacters shortRev);
+        buildCode = lib.foldr (a: b: "${toString a}${toString b}") "" shortRevCodes;
 
-        shortVersion = builtins.elemAt (splitString "+" (builtins.elemAt deps 0).version) 0;
+        shortVersion = "1.0.0";
         version = "${shortVersion}+${buildCode}";
       in {
         packages.default = pkgs.flutter.buildFlutterApplication {
           pname = "expidus-calculator";
           version = "${shortVersion}+git-${shortRev}";
 
-          src = cleanSource self;
+          src = lib.cleanSource self;
 
           flutterBuildFlags = [
             "--dart-define=COMMIT_HASH=${shortRev}"
           ];
 
-          depsListFile = ./deps.json;
-          vendorHash = "sha256-SJtfW+UZSmCugAgLd/O0PxtE53Fe/pouYKsg9fPv06o=";
+          pubspecLock = lib.importJSON ./pubspec.lock.json;
+
+          gitHashes = {
+            expidus = "sha256-qAdgxZrsd2qUIB6NghRDeVNk2n3OJ/NBb0JzbmiM810=";
+          };
 
           postInstall = ''
             rm $out/bin/calculator
@@ -63,8 +59,8 @@
           meta = {
             description = "ExpidusOS Calculator";
             homepage = "https://expidusos.com";
-            license = licenses.gpl3;
-            maintainers = with maintainers; [ RossComputerGuy ];
+            license = lib.licenses.gpl3;
+            maintainers = with lib.maintainers; [ RossComputerGuy ];
             platforms = [ "x86_64-linux" "aarch64-linux" ];
           };
         };
@@ -72,7 +68,11 @@
         devShells.default = pkgs.mkShell {
           inherit (self.packages.${system}.default) pname version name;
 
-          packages = with pkgs; [ flutter ];
+          packages = with pkgs; [
+            flutter
+            pkg-config
+            gtk3
+          ];
         };
       });
 }

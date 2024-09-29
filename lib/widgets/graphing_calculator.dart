@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:expidus/expidus.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class _GraphingCalculatorGraph extends CustomPainter {
@@ -99,11 +99,6 @@ class _GraphingCalculatorState extends State<GraphingCalculator> {
           child: Material(
             color: Theme.of(context).colorScheme.background,
             child: TextField(
-              textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-              cursorColor: Theme.of(context).colorScheme.primary,
               onChanged: (value) {
                 final parser = Parser();
                 setState(() {

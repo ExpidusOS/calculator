@@ -6,7 +6,8 @@ enum CalculatorSettings<T> {
   const CalculatorSettings(this.defaultValue);
 
   final T defaultValue;
-  T valueFor(SharedPreferences prefs) => (prefs.get(name) as T?) ?? defaultValue;
+  T valueFor(SharedPreferences prefs) =>
+      (prefs.get(name) as T?) ?? defaultValue;
   Future<T> get value async => valueFor(await SharedPreferences.getInstance());
 
   @override

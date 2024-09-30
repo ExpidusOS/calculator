@@ -11,7 +11,9 @@ import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final kCommitHash = (const String.fromEnvironment('COMMIT_HASH', defaultValue: 'AAAAAAA')).substring(0, 7);
+final kCommitHash =
+    (const String.fromEnvironment('COMMIT_HASH', defaultValue: 'AAAAAAA'))
+        .substring(0, 7);
 
 Future<void> _runMain({
   required bool isSentry,
@@ -22,15 +24,19 @@ Future<void> _runMain({
     pubspec: pubspec,
   );
 
-  runApp(isSentry ? DefaultAssetBundle(bundle: SentryAssetBundle(), child: app) : app);
+  runApp(isSentry
+      ? DefaultAssetBundle(bundle: SentryAssetBundle(), child: app)
+      : app);
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final pinfo = await PackageInfo.fromPlatform();
 
-  final pubspecOrig = Pubspec.parse(await rootBundle.loadString('pubspec.yaml'));
-  final pubspec = Pubspec(pubspecOrig.name,
+  final pubspecOrig =
+      Pubspec.parse(await rootBundle.loadString('pubspec.yaml'));
+  final pubspec = Pubspec(
+    pubspecOrig.name,
     version: Version.parse("${pinfo.version}+$kCommitHash"),
     publishTo: pubspecOrig.publishTo,
     environment: pubspecOrig.environment,
@@ -52,7 +58,8 @@ Future<void> main() async {
   const sentryDsn = String.fromEnvironment('SENTRY_DSN', defaultValue: '');
   final prefs = await SharedPreferences.getInstance();
 
-  if (sentryDsn.isNotEmpty && (prefs.getBool(CalculatorSettings.optInErrorReporting.name) ?? false)) {
+  if (sentryDsn.isNotEmpty &&
+      (prefs.getBool(CalculatorSettings.optInErrorReporting.name) ?? false)) {
     await SentryFlutter.init(
       (options) {
         options.dsn = sentryDsn;
@@ -96,9 +103,12 @@ class CalculatorApp extends StatefulWidget {
   @override
   State<CalculatorApp> createState() => CalculatorAppState();
 
-  static bool isSentryOnContext(BuildContext context) => context.findAncestorWidgetOfExactType<CalculatorApp>()!.isSentry;
-  static Pubspec getPubspec(BuildContext context) => context.findAncestorWidgetOfExactType<CalculatorApp>()!.pubspec;
-  static Future<void> reload(BuildContext context) => context.findAncestorStateOfType<CalculatorAppState>()!.reload();
+  static bool isSentryOnContext(BuildContext context) =>
+      context.findAncestorWidgetOfExactType<CalculatorApp>()!.isSentry;
+  static Pubspec getPubspec(BuildContext context) =>
+      context.findAncestorWidgetOfExactType<CalculatorApp>()!.pubspec;
+  static Future<void> reload(BuildContext context) =>
+      context.findAncestorStateOfType<CalculatorAppState>()!.reload();
 }
 
 class CalculatorAppState extends State<CalculatorApp> {
@@ -108,10 +118,12 @@ class CalculatorAppState extends State<CalculatorApp> {
   void initState() {
     super.initState();
 
-    SharedPreferences.getInstance().then((prefs) => setState(() {
-      preferences = prefs;
-      _loadSettings();
-    })).catchError((error, trace) {
+    SharedPreferences.getInstance()
+        .then((prefs) => setState(() {
+              preferences = prefs;
+              _loadSettings();
+            }))
+        .catchError((error, trace) {
       reportError(error, trace: trace);
     });
   }
@@ -124,27 +136,29 @@ class CalculatorAppState extends State<CalculatorApp> {
   void _loadSettings() {}
 
   @override
-  Widget build(BuildContext context) =>
-    MultiProvider(
-      providers: [
-        Provider(create: (context) => preferences),
-      ],
-      child: ExpidusApp(
-        title: 'Calculator',
-        onGenerateTitle: (context) => AppLocalizations.of(context)!.applicationTitle,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        navigatorObservers: widget.isSentry ? [
-          SentryNavigatorObserver(
-            setRouteNameAsTransaction: true,
-          ),
-        ] : [],
-        routes: {
-          '/': (context) => const MainView(),
-          '/about': (context) => const AboutView(),
-          '/privacy': (context) => const PrivacyView(),
-          '/settings': (context) => const SettingsView(),
-        },
-      ),
-    );
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          Provider(create: (context) => preferences),
+        ],
+        child: ExpidusApp(
+          title: 'Calculator',
+          onGenerateTitle: (context) =>
+              AppLocalizations.of(context)?.applicationTitle ?? 'Calculator',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          navigatorObservers: widget.isSentry
+              ? [
+                  SentryNavigatorObserver(
+                    setRouteNameAsTransaction: true,
+                  ),
+                ]
+              : [],
+          routes: {
+            '/': (context) => const MainView(),
+            '/about': (context) => const AboutView(),
+            '/privacy': (context) => const PrivacyView(),
+            '/settings': (context) => const SettingsView(),
+          },
+        ),
+      );
 }

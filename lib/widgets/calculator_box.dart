@@ -11,12 +11,11 @@ class CalculatorBox extends StatelessWidget {
   final ValueChanged<String>? onChanged;
 
   @override
-  Widget build(BuildContext context) =>
-    Material(
-      color: Theme.of(context).colorScheme.background,
-      child: TextField(
-        controller: TextEditingController(text: value),
-        onChanged: onChanged,
-      ),
-    );
+  Widget build(BuildContext context) => Material(
+        color: Theme.of(context).colorScheme.background,
+        child: TextField(
+          controller: TextEditingController(text: value),
+          onChanged: onChanged,
+        ),
+      );
 }

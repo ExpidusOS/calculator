@@ -13,7 +13,8 @@ class MathExpressionsBuilder {
 
   double? get value => _value;
 
-  String get expressionString => _expression != null ? _expression!.toString() : _list.join('');
+  String get expressionString =>
+      _expression != null ? _expression!.toString() : _list.join('');
   set expressionString(String value) {
     _list.clear();
     _list.addAll(value.split(''));
@@ -56,13 +57,12 @@ class MathExpressionsBuilder {
     try {
       _expression = parser.parse(_list.join(''));
 
-      final cm = ContextModel()
-        ..bindVariable(Variable('𐍀'), Number(pi));
+      final cm = ContextModel()..bindVariable(Variable('Π'), Number(pi));
       _value = _expression!.evaluate(EvaluationType.REAL, cm);
     } catch (e) {}
   }
 
   @override
   String toString() =>
-    _value == null ? expressionString : '$expressionString = ${_value!}';
+      _value == null ? expressionString : '$expressionString = ${_value!}';
 }

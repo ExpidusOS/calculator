@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart' show Color;
-import 'package:libtokyo_flutter/libtokyo.dart' hide Color;
+import 'package:flutter/material.dart' hide Material, Theme;
+import 'package:expidus/expidus.dart';
 
 class CalculatorButton extends StatelessWidget {
   const CalculatorButton({
@@ -15,28 +15,26 @@ class CalculatorButton extends StatelessWidget {
   final ButtonStyle? style;
   final bool constrained;
 
-  Widget _buildMain(BuildContext context) =>
-    OutlinedButton(
-      onPressed: onPressed,
-      style: style ?? ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(
-          Color.lerp(
-            Theme.of(context).colorScheme.secondary,
-            Theme.of(context).colorScheme.background,
-            0.25
-          )
-        ),
-      ),
-      child: child,
-    );
+  Widget _buildMain(BuildContext context) => OutlinedButton(
+        onPressed: onPressed,
+        style: style ??
+            ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(Color.lerp(
+                  Theme.of(context).colorScheme.secondary,
+                  Theme.of(context).colorScheme.background,
+                  0.25)),
+            ),
+        child: child,
+      );
 
   @override
-  Widget build(BuildContext context) =>
-    constrained ? Center(
-      child: Container(
-        width: 80,
-        height: 80,
-        child: _buildMain(context),
-      ),
-    ) : _buildMain(context);
+  Widget build(BuildContext context) => constrained
+      ? Center(
+          child: Container(
+            width: 65,
+            height: 65,
+            child: _buildMain(context),
+          ),
+        )
+      : _buildMain(context);
 }

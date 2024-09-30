@@ -1,5 +1,4 @@
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:expidus/expidus.dart';
 import 'basic_calculator.dart';
 import 'graphing_calculator.dart';
 
@@ -36,8 +35,7 @@ class _CalculatorViewState extends State<CalculatorView> {
     }
   }
 
-  CalculatorViewType get type =>
-    isState ? _type! : widget.value!.value;
+  CalculatorViewType get type => isState ? _type! : widget.value!.value;
 
   @override
   void initState() {
@@ -54,20 +52,8 @@ class _CalculatorViewState extends State<CalculatorView> {
       case CalculatorViewType.graphing:
         return const GraphingCalculator();
       case CalculatorViewType.standard:
-        return AdaptiveLayout(
-          body: SlotLayout(
-            config: <Breakpoint, SlotLayoutConfig>{
-              Breakpoints.smallAndUp: SlotLayout.from(
-                key: const Key('smallBody'),
-                builder: (_) =>
-                  BasicCalculator(
-                    onChanged: (value) =>
-                      setState(() {
-                      }),
-                  ),
-              ),
-            },
-          ),
+        return BasicCalculator(
+          onChanged: (value) => setState(() {}),
         );
     }
   }

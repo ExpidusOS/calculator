@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:libtokyo_flutter/libtokyo.dart';
+import 'package:expidus/expidus.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class _GraphingCalculatorGraph extends CustomPainter {
@@ -12,31 +12,24 @@ class _GraphingCalculatorGraph extends CustomPainter {
   final Expression? expression;
 
   @override
-  void paint(Canvas canvas, Size ogSize) {
-    final size = Size(ogSize.width, MediaQuery.sizeOf(context).height);
-    canvas.drawPaint(
-      Paint()
-        ..color = Theme.of(context).colorScheme.background
-    );
+  void paint(Canvas canvas, Size size) {
+    canvas.drawPaint(Paint()..color = Theme.of(context).colorScheme.surface);
 
-    final centerX = size.width / 2;
-    final centerY = size.height / 2;
+    final center = size / 2;
 
     canvas.drawLine(
-      Offset(centerX, 0.0),
-      Offset(centerX, size.height),
-      Paint()
-        ..color = Theme.of(context).colorScheme.secondary
-        ..strokeWidth = 4
-    );
+        Offset(center.width, 0.0),
+        Offset(center.width, size.height),
+        Paint()
+          ..color = Theme.of(context).colorScheme.tertiary
+          ..strokeWidth = 4);
 
     canvas.drawLine(
-      Offset(0, centerY),
-      Offset(size.width, centerY),
-      Paint()
-        ..color = Theme.of(context).colorScheme.secondary
-        ..strokeWidth = 4
-    );
+        Offset(0, center.height),
+        Offset(size.width, center.height),
+        Paint()
+          ..color = Theme.of(context).colorScheme.tertiary
+          ..strokeWidth = 4);
 
     final points = <Offset>[];
     if (expression != null) {
@@ -44,34 +37,33 @@ class _GraphingCalculatorGraph extends CustomPainter {
       final x = Variable('x');
       final y = Variable('y');
 
-      for (var xiter = centerX; xiter >= -centerX; xiter--) {
+      for (var xiter = center.width; xiter >= -center.width; xiter--) {
         try {
           final cm = ContextModel()
             ..bindVariable(x, Number(xiter))
             ..bindVariable(y, Number(0));
 
           final yiter = expr.evaluate(EvaluationType.REAL, cm);
-          if (!yiter.isNaN && yiter.isFinite) points.add(Offset(xiter + centerX, (yiter * -1) + centerY));
+          if (!yiter.isNaN && yiter.isFinite)
+            points.add(
+                Offset(xiter + center.width, (yiter * -1) + center.height));
         } catch (ex) {
           // No action needed
         }
       }
     }
 
-    canvas.drawPoints(
-      PointMode.polygon,
-      points,
-      Paint()
-        ..color = Theme.of(context).colorScheme.primary
-    );
+    canvas.drawPoints(PointMode.polygon, points,
+        Paint()..color = Theme.of(context).colorScheme.tertiary);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => expression != (oldDelegate as _GraphingCalculatorGraph).expression;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) =>
+      expression != (oldDelegate as _GraphingCalculatorGraph).expression;
 }
 
 class GraphingCalculator extends StatefulWidget {
-  const GraphingCalculator({ super.key });
+  const GraphingCalculator({super.key});
 
   @override
   State<GraphingCalculator> createState() => _GraphingCalculatorState();
@@ -81,30 +73,14 @@ class _GraphingCalculatorState extends State<GraphingCalculator> {
   Expression? _expr;
 
   @override
-  Widget build(BuildContext context) =>
-    Column(
-      children: [
-        Container(
-          width: MediaQuery.sizeOf(context).width,
-          child: CustomPaint(
-            painter: _GraphingCalculatorGraph(
-              context: context,
-              expression: _expr,
-            ),
-          ),
-        ),
-        Container(
-          width: MediaQuery.sizeOf(context).width,
-          height: Theme.of(context).textTheme.displayLarge!.fontSize,
-          child: Material(
-            color: Theme.of(context).colorScheme.background,
-            child: TextField(
-              textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-              cursorColor: Theme.of(context).colorScheme.primary,
-              onChanged: (value) {
+  Widget build(BuildContext context) => Column(
+        children: [
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            height: Theme.of(context).textTheme.displayLarge!.fontSize,
+            child: Material(
+              color: Theme.of(context).colorScheme.background,
+              child: TextField(onChanged: (value) {
                 final parser = Parser();
                 setState(() {
                   try {
@@ -113,10 +89,19 @@ class _GraphingCalculatorState extends State<GraphingCalculator> {
                     // No action needed
                   }
                 });
-              }
+              }),
             ),
           ),
-        ),
-      ],
-    );
+          LayoutBuilder(
+            builder: (context, constraints) => CustomPaint(
+              size: Size(constraints.maxWidth,
+                  MediaQuery.sizeOf(context).height - 110),
+              painter: _GraphingCalculatorGraph(
+                context: context,
+                expression: _expr,
+              ),
+            ),
+          ),
+        ],
+      );
 }

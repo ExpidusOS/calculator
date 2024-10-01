@@ -19,7 +19,7 @@ dependencies:
   expidus:
     git:
       url: https://github.com/ExpidusOS/libexpidus.git
-      ref: 911324c9e4e2734743840ca59dd65799d24c255c
+      ref: d07cd07a8365a1e0541d4084c5c6e62cd1b964e8
   markdown: ^7.1.1
   math_expressions: ^2.4.0
   package_info_plus: ^4.1.0

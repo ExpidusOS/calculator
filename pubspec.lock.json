@@ -154,8 +154,8 @@
       "dependency": "direct main",
       "description": {
         "path": ".",
-        "ref": "911324c9e4e2734743840ca59dd65799d24c255c",
-        "resolved-ref": "911324c9e4e2734743840ca59dd65799d24c255c",
+        "ref": "d07cd07a8365a1e0541d4084c5c6e62cd1b964e8",
+        "resolved-ref": "d07cd07a8365a1e0541d4084c5c6e62cd1b964e8",
         "url": "https://github.com/ExpidusOS/libexpidus.git"
       },
       "source": "git",
